@@ -1,39 +1,52 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# text\_copperframe
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+![Experimental](https://img.shields.io/badge/status-experimental-blue)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+> The versatile text field for every design
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+The versatile text field for every design
 
-## Features
+![Hero image for text\_copperframe](doc/text_copperframe.jpeg)
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Highlights:
 
-## Getting started
+-   Validate text field size
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+A few examples:
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Create an inventory used to keep track of rules:
 
 ```dart
-const like = 'sample';
+final optionsInventory = VxOptionsInventory()
 ```
 
-## Additional information
+Create a string rule:
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+final rule = VxStringRules.charsLessThan<String>(name: 'test',
+metricStoreHolder: metricStoreHolder, optionsInventory: optionsInventory,
+failureProducer: SimpleMessageProducer('Too many characters'));
+```
+
+## Documentation and links
+
+-   [Code Maintenance :wrench:](MAINTENANCE.md)
+-   [Code Of Conduct](CODE_OF_CONDUCT.md)
+-   [Contributing :busts\_in\_silhouette: :construction:](CONTRIBUTING.md)
+-   [Architectural Decision Records :memo:](DECISIONS.md)
+-   [Contributors
+    :busts\_in\_silhouette:](https://github.com/flarebyte/text_copperframe/graphs/contributors)
+-   [Dependencies](https://github.com/flarebyte/text_copperframe/network/dependencies)
+-   [Glossary
+    :book:](https://github.com/flarebyte/overview/blob/main/GLOSSARY.md)
+-   [Software engineering principles
+    :gem:](https://github.com/flarebyte/overview/blob/main/PRINCIPLES.md)
+-   [Overview of Flarebyte.com ecosystem
+    :factory:](https://github.com/flarebyte/overview)
+-   [Dart dependencies](DEPENDENCIES.md)
+-   [Usage](USAGE.md)
+-   [Example](example/example.dart)
+
+## Related
+
+-   [form\_validator](https://pub.dev/packages/form_validator)
