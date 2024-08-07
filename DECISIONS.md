@@ -10,6 +10,13 @@ is a software design choice that evaluates:
 The purpose is to understand the reasons behind the current architecture, so
 they can be carried-on or re-visited in the future.
 
+## Image direction
+
+Sleeker image centered around a textarea field with copper outlines,
+featuring minimal details like a label, placeholder text, and character/word
+count indicators. The design is clean and simple, focusing on the main
+textarea field.
+
 ## Idea
 
 ### Problem Description
@@ -73,7 +80,8 @@ displayed next to the text field and specify which icon.
     options like rich text editing or markdown support.
 4.  **Non-Text Inputs**: The model should not support non-text inputs such as
     file uploads or date pickers.
-5.  **Complex Interdependencies**: The configuration should not handle complex
+5.  **Complex Interdependencies**: The configuration should not handle
+    complex
     interdependencies between multiple fields beyond basic validation rules.
 
 ### Examples
@@ -84,7 +92,8 @@ displayed next to the text field and specify which icon.
     incorrect format.
 3.  **Valid Telephone Input**: "+1234567890" displays the phone icon and
     validates successfully.
-4.  **Empty AWS ARN Input**: No input shows a warning message to enter an ARN.
+4.  **Empty AWS ARN Input**: No input shows a warning message to enter an
+    ARN.
 5.  **Excessive Characters**: A 500-character input in a field with a
     250-character limit displays an error message.
 
