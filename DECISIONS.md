@@ -4,8 +4,8 @@ An [architecture
 decision](https://cloud.google.com/architecture/architecture-decision-records)
 is a software design choice that evaluates:
 
--   a functional requirement (features).
--   a non-functional requirement (technologies, methodologies, libraries).
+- a functional requirement (features).
+- a non-functional requirement (technologies, methodologies, libraries).
 
 The purpose is to understand the reasons behind the current architecture, so
 they can be carried-on or re-visited in the future.
@@ -100,3 +100,82 @@ displayed next to the text field and specify which icon.
 By clearly defining the problem, use cases, edge cases, and limitations, we
 ensure the development of a robust and versatile text field model that meets
 diverse requirements and handles a variety of input scenarios effectively.
+
+## Refinements
+
+A Dart model is required to handle a text field widget that includes validation and message display functionality. The text field should dynamically validate input based on specified rules, generating messages at different levels (info, warning, error) as needed. Additionally, the model should support customizable UI behavior through options and allow for merging these options from different sources.
+
+### Use Cases:
+
+1. **Basic Text Validation:**
+
+   - A text field accepts user input and checks if the input is valid based on pre-defined rules (e.g., non-empty, valid email format). Depending on the outcome, an error message may be displayed.
+
+2. **Display Messages with Different Levels:**
+
+   - As the user types, the text field can display messages like "Password too short" (error), "Consider using a stronger password" (warning), or "Password meets requirements" (info).
+
+3. **Event-Driven Validation:**
+
+   - The text field triggers validation rules on specific events (e.g., `onCharChange`, `onBlur`). If a rule fails, the corresponding message is shown to the user.
+
+4. **Optional Icons in Messages:**
+
+   - Messages can optionally include an icon, such as a telephone icon for a "Invalid phone number" error, to provide visual context.
+
+5. **Customizable UI Behavior:**
+
+   - The text field may display additional UI elements based on options, such as showing a character count below the field if the option `displayCharacterCount: true` is provided.
+
+6. **Merging of Options:**
+   - The model should allow the merging of global options (e.g., applied to all text fields) with widget-specific options (e.g., unique to one text field). For example, global options might set `displayCharacterCount: true` for all fields, but a specific text field might override this to `false`.
+
+### Edge Cases:
+
+1. **No Matching Rule for Input:**
+
+   - Input that does not trigger any validation rules should result in no messages being displayed.
+
+2. **Multiple Messages from a Single Event:**
+
+   - A single input event might trigger multiple validation rules, potentially resulting in multiple messages of different levels being displayed simultaneously.
+
+3. **Conflicting UI Options:**
+
+   - When global and widget-specific options conflict, the model should clearly define which options take precedence (e.g., widget-specific options override global options).
+
+4. **Message Update Frequency:**
+
+   - Messages should update in real-time as the user types, but care should be taken to avoid excessive re-rendering or flickering of the UI.
+
+5. **Handling Undefined Events:**
+
+   - If an event is triggered for which no rules are defined, the system should safely ignore the event without producing errors or unexpected behavior.
+
+6. **Icon Availability:**
+   - Ensure that the absence of an icon for a message does not lead to UI layout issues.
+
+### Limitations:
+
+1. **Non-Visual Elements:**
+
+   - The model should not address the specific visual styling of messages or the text field; it should focus only on validation logic and message handling.
+
+2. **Complex Validation Logic:**
+
+   - The model should not implement complex validation logic such as asynchronous validation (e.g., server-side checks), focusing only on simple, synchronous validation rules.
+
+3. **Event-Driven Logic Beyond Validation:**
+
+   - The model should not handle events unrelated to validation, such as keybinding or form submission events.
+
+4. **Extensive UI Customization:**
+
+   - The model should not attempt to offer extensive customization of the UI beyond the simple option-based modifications like `displayCharacterCount`.
+
+5. **Global State Management:**
+   - The model should not manage or store global state outside of the context of the text field's validation and option handling.
+
+### Summary:
+
+The model should focus on validating user input in a Dart text field widget, generating contextually appropriate messages based on a set of predefined rules triggered by specific events. It should allow for some basic UI customization through a flexible options system, and provide a mechanism to merge different sets of options together, ensuring a smooth and user-friendly experience.
