@@ -4,11 +4,23 @@ import 'package:validomix/validomix.dart';
 
 final metricStoreHolder = ExMetricStoreHolder();
 final optionsInventory = VxOptionsInventory();
-final successMessage = UserMessage(label: 'Success', level: MessageLevel.info, category: 'Length');
-final failureMessage = UserMessage(label: 'Too many characters', level: MessageLevel.error, category: 'Length');
+
+class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
+  final UserMessage message;
+  UserMessageProducer(this.message);
+  @override
+  UserMessage produce(Map<String, String> options, String value) => message;
+}
+
+final successMessage =
+    UserMessage(label: 'Success', level: MessageLevel.info, category: 'Length');
+final failureMessage = UserMessage(
+    label: 'Too many characters',
+    level: MessageLevel.error,
+    category: 'Length');
 final rule = VxStringRules.charsLessThan<UserMessage>(
     name: 'test',
     metricStoreHolder: metricStoreHolder,
     optionsInventory: optionsInventory,
-    successProducer: successMessage,
-    failureProducer: failureMessage);
+    successProducer: UserMessageProducer(successMessage),
+    failureProducer: UserMessageProducer(failureMessage));
