@@ -2,9 +2,6 @@ import 'package:eagleyeix/metric.dart';
 import 'package:text_copperframe/src/higher_model.dart';
 import 'package:validomix/validomix.dart';
 
-final metricStoreHolder = ExMetricStoreHolder();
-final optionsInventory = VxOptionsInventory();
-
 class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
   final UserMessage message;
   UserMessageProducer(this.message);
@@ -12,15 +9,30 @@ class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
   UserMessage produce(Map<String, String> options, String value) => message;
 }
 
-final successMessage =
-    UserMessage(label: 'Success', level: MessageLevel.info, category: 'Length');
-final failureMessage = UserMessage(
-    label: 'Too many characters',
-    level: MessageLevel.error,
-    category: 'Length');
-final rule = VxStringRules.charsLessThan<UserMessage>(
-    name: 'test',
-    metricStoreHolder: metricStoreHolder,
-    optionsInventory: optionsInventory,
-    successProducer: UserMessageProducer(successMessage),
-    failureProducer: UserMessageProducer(failureMessage));
+class TextFieldEventBuilder {
+  final FieldEvent fieldEvent;
+  final ExMetricStoreHolder metricStoreHolder;
+  final VxOptionsInventory optionsInventory;
+  final List<VxBaseRule<UserMessage>> rules = [];
+  TextFieldEventBuilder(
+      {required this.fieldEvent,
+      required this.metricStoreHolder,
+      required this.optionsInventory});
+
+  _buildRule(FieldRule rule) {
+    switch (rule.name) {
+      case 'chars less than':
+        rules.add(_buildCharsLessThan(rule));
+    }
+  }
+
+  _buildCharsLessThan(FieldRule fieldRule) {
+    final rule = VxStringRules.charsLessThan<UserMessage>(
+        name: '${fieldEvent.name}${fieldRule.name}',
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+}
