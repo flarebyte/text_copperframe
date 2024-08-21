@@ -13,7 +13,7 @@ class TextFieldEventBuilder {
   final FieldEvent fieldEvent;
   final ExMetricStoreHolder metricStoreHolder;
   final VxOptionsInventory optionsInventory;
-  final List<VxBaseRule<UserMessage>> rules = [];
+  final List<VxBaseRule<UserMessage>> charChangeRules = []; 
   TextFieldEventBuilder(
       {required this.fieldEvent,
       required this.metricStoreHolder,
@@ -22,7 +22,7 @@ class TextFieldEventBuilder {
   _buildRule(FieldRule rule) {
     switch (rule.name) {
       case 'chars less than':
-        rules.add(_buildCharsLessThan(rule));
+        charChangeRules.add(_buildCharsLessThan(rule));
     }
   }
 
