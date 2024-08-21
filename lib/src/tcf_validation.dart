@@ -1,5 +1,6 @@
 import 'package:eagleyeix/metric.dart';
 import 'package:text_copperframe/src/higher_model.dart';
+import 'package:text_copperframe/src/tcf_metrics.dart';
 import 'package:validomix/validomix.dart';
 
 class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
@@ -13,16 +14,27 @@ class TextFieldEventBuilder {
   final FieldEvent fieldEvent;
   final ExMetricStoreHolder metricStoreHolder;
   final VxOptionsInventory optionsInventory;
-  final List<VxBaseRule<UserMessage>> charChangeRules = []; 
+
   TextFieldEventBuilder(
       {required this.fieldEvent,
       required this.metricStoreHolder,
       required this.optionsInventory});
 
-  _buildRule(FieldRule rule) {
+  VxBaseRule<UserMessageProducer> build() {
+    final charChangeRules =
+        fieldEvent.rules.map((fieldRule) => _buildRule(fieldRule));
+    // todo remove null whereType ?
+    // createVxBaseRule<UserMessageProducer> that is a composition of all the rules
+  }
+
+  VxBaseRule<UserMessageProducer>? _buildRule(FieldRule rule) {
     switch (rule.name) {
       case 'chars less than':
-        charChangeRules.add(_buildCharsLessThan(rule));
+        return _buildCharsLessThan(rule);
+      default:
+        metricStoreHolder.store
+            .addMetric(TcfMetrics.getRuleNotFound(rule.name), 1);
+        return null;
     }
   }
 
