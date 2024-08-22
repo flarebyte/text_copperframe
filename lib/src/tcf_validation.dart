@@ -10,6 +10,26 @@ class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
   UserMessage produce(Map<String, String> options, String value) => message;
 }
 
+class TcfRuleComposer extends VxBaseRule<UserMessage> {
+  final Iterable<VxBaseRule<UserMessage>> rules;
+
+  TcfRuleComposer(
+    this.rules,
+  );
+
+  @override
+  List<UserMessage> validate(Map<String, String> options, String value) {
+    final List<UserMessage> messages = [];
+
+    for (final rule in rules) {
+      final List<UserMessage> result = rule.validate(options, value);
+      messages.addAll(result);
+    }
+
+    return messages;
+  }
+}
+
 class TextFieldEventBuilder {
   final FieldEvent fieldEvent;
   final ExMetricStoreHolder metricStoreHolder;
@@ -20,11 +40,11 @@ class TextFieldEventBuilder {
       required this.metricStoreHolder,
       required this.optionsInventory});
 
-  VxBaseRule<UserMessageProducer> build() {
-    final charChangeRules =
-        fieldEvent.rules.map((fieldRule) => _buildRule(fieldRule));
-    // todo remove null whereType ?
-    // createVxBaseRule<UserMessageProducer> that is a composition of all the rules
+  TcfRuleComposer build() {
+    final charChangeRules = fieldEvent.rules
+        .map((fieldRule) => _buildRule(fieldRule))
+        .whereType<VxBaseRule<UserMessage>>();
+    return TcfRuleComposer(charChangeRules);
   }
 
   VxBaseRule<UserMessageProducer>? _buildRule(FieldRule rule) {
