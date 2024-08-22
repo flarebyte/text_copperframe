@@ -51,6 +51,20 @@ class TextFieldEventBuilder {
     switch (rule.name) {
       case 'chars less than':
         return _buildCharsLessThan(rule);
+      case 'chars less than or equal':
+        return _buildCharsLessThanOrEqual(rule);
+      case 'chars more than':
+        return _buildCharsMoreThan(rule);
+      case 'chars more than or equal':
+        return _buildcharsMoreThanOrEqual(rule);
+      case 'words less than':
+        return _buildWordsLessThan(rule);
+      case 'words less than or equal':
+        return _buildWordsLessThanOrEqual(rule);
+      case 'words more than':
+        return _buildWordsMoreThan(rule);
+      case 'words more than or equal':
+        return _buildWordsMoreThanOrEqual(rule);
       default:
         metricStoreHolder.store
             .addMetric(TcfMetrics.getRuleNotFound(rule.name), 1);
@@ -58,9 +72,83 @@ class TextFieldEventBuilder {
     }
   }
 
+  String _createName(FieldRule fieldRule) {
+    return '${fieldEvent.name}${fieldRule.name}';
+  }
+
   _buildCharsLessThan(FieldRule fieldRule) {
     final rule = VxStringRules.charsLessThan<UserMessage>(
-        name: '${fieldEvent.name}${fieldRule.name}',
+        name: _createName(fieldRule),
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+
+  _buildCharsMoreThan(FieldRule fieldRule) {
+    final rule = VxStringRules.charsMoreThan<UserMessage>(
+        name: _createName(fieldRule),
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+
+  _buildCharsLessThanOrEqual(FieldRule fieldRule) {
+    final rule = VxStringRules.charsLessThanOrEqual<UserMessage>(
+        name: _createName(fieldRule),
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+
+  _buildcharsMoreThanOrEqual(FieldRule fieldRule) {
+    final rule = VxStringRules.charsMoreThanOrEqual<UserMessage>(
+        name: _createName(fieldRule),
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+
+  _buildWordsLessThan(FieldRule fieldRule) {
+    final rule = VxStringRules.wordsLessThan<UserMessage>(
+        name: _createName(fieldRule),
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+
+  _buildWordsLessThanOrEqual(FieldRule fieldRule) {
+    final rule = VxStringRules.wordsLessThanOrEqual<UserMessage>(
+        name: _createName(fieldRule),
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+
+  _buildWordsMoreThan(FieldRule fieldRule) {
+    final rule = VxStringRules.wordsMoreThan<UserMessage>(
+        name: _createName(fieldRule),
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return rule;
+  }
+
+  _buildWordsMoreThanOrEqual(FieldRule fieldRule) {
+    final rule = VxStringRules.wordsMoreThanOrEqual<UserMessage>(
+        name: _createName(fieldRule),
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
