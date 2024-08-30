@@ -16,5 +16,4 @@ class TcfMetrics {
       ExMetricDimUnit.key: ExMetricDimUnit.count
     });
   }
-
 }
