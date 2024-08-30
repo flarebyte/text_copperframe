@@ -43,11 +43,11 @@ class TextFieldEventBuilder {
   TcfRuleComposer build() {
     final charChangeRules = fieldEvent.rules
         .map((fieldRule) => _buildRule(fieldRule))
-        .whereType<VxBaseRule<UserMessage>>();
+        .whereType<VxCharsRule<UserMessage>>();
     return TcfRuleComposer(charChangeRules);
   }
 
-  VxBaseRule<UserMessageProducer>? _buildRule(FieldRule rule) {
+  VxCharsRule<UserMessage>? _buildRule(FieldRule rule) {
     switch (rule.name) {
       case 'chars less than':
         return _buildCharsLessThan(rule);
@@ -73,7 +73,7 @@ class TextFieldEventBuilder {
   }
 
   String _createName(FieldRule fieldRule) {
-    return '${fieldEvent.name}${fieldRule.name}';
+    return '${fieldEvent.name}_${fieldRule.name.replaceAll(' ', '-')}';
   }
 
   _buildCharsLessThan(FieldRule fieldRule) {

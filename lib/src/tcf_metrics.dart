@@ -1,7 +1,7 @@
 import 'package:eagleyeix/metric.dart';
 
 class TcfMetrics {
-  static final lib = {'package': 'validomix'};
+  static final lib = {'package': 'text_copperframe'};
 
   static ExMetricKey getRuleNotFound(String id) {
     return ExMetricKey(name: [

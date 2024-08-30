@@ -17,9 +17,9 @@ void main() {
     });
 
     test('check validation with less than', () {
-      final rule = FieldRule(
-        name: 'Length Check',
-        options: {'min': '1', 'max': '25'},
+      final minRule = FieldRule(
+        name: 'chars more than',
+        options: {'min': '1'},
         successMessages: [
           UserMessage(
               label: 'Valid length',
@@ -35,7 +35,7 @@ void main() {
       );
       final event = FieldEvent(
         name: 'OnCharChange',
-        rules: [rule],
+        rules: [minRule],
       );
       final builder = TextFieldEventBuilder(
           fieldEvent: event,
