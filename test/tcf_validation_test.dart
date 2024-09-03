@@ -16,26 +16,36 @@ void main() {
       optionsInventory = VxOptionsInventory();
     });
 
-    test('check validation with less than', () {
+    test('check validation for a range of chars', () {
       final minRule = FieldRule(
         name: 'chars more than',
         options: {'min': '1'},
         successMessages: [
           UserMessage(
-              label: 'Valid length',
+              label: 'Big enough', level: MessageLevel.info, category: 'length')
+        ],
+        failureMessages: [
+          UserMessage(
+              label: 'Too small', level: MessageLevel.error, category: 'length')
+        ],
+      );
+      final maxRule = FieldRule(
+        name: 'chars less than or equal',
+        options: {'max': '30'},
+        successMessages: [
+          UserMessage(
+              label: 'Small enough',
               level: MessageLevel.info,
               category: 'length')
         ],
         failureMessages: [
           UserMessage(
-              label: 'Invalid length',
-              level: MessageLevel.error,
-              category: 'length')
+              label: 'Too big', level: MessageLevel.error, category: 'length')
         ],
       );
       final event = FieldEvent(
         name: 'OnCharChange',
-        rules: [minRule],
+        rules: [minRule, maxRule],
       );
       final builder = TextFieldEventBuilder(
           fieldEvent: event,
