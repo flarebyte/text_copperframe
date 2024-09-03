@@ -52,7 +52,7 @@ void main() {
           metricStoreHolder: metricStoreHolder,
           optionsInventory: optionsInventory);
       final textRule = builder.build();
-      textRule.validate({}, 'some text');
+      textRule.validate('some text');
       expectNoMetricError(metricStoreHolder);
     });
   });

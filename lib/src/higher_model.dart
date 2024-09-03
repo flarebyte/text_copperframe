@@ -1,3 +1,5 @@
+import 'package:validomix/validomix.dart';
+
 /// Represents a message to be displayed to a user.
 class UserMessage {
   /// The label or content of the message.
@@ -220,5 +222,45 @@ class FieldWidget {
     } else {
       throw FormatException('Missing required fields in JSON');
     }
+  }
+}
+
+class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
+  final UserMessage message;
+  UserMessageProducer(this.message);
+  @override
+  UserMessage produce(Map<String, String> options, String value) => message;
+}
+
+abstract class BaseUserRule {
+  List<UserMessage> validate(String value);
+}
+
+class UserRule extends BaseUserRule {
+  final VxBaseRule<UserMessage> rule;
+  final Map<String, String> options;
+  UserRule({required this.rule, required this.options});
+
+  @override
+  List<UserMessage> validate(String value) {
+    return rule.validate(options, value);
+  }
+}
+
+class TcfRuleComposer extends BaseUserRule {
+  final Iterable<BaseUserRule> rules;
+
+  TcfRuleComposer(this.rules);
+
+  @override
+  List<UserMessage> validate(String value) {
+    final List<UserMessage> messages = [];
+
+    for (final rule in rules) {
+      final List<UserMessage> result = rule.validate(value);
+      messages.addAll(result);
+    }
+
+    return messages;
   }
 }
