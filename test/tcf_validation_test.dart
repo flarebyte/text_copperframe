@@ -17,31 +17,25 @@ void main() {
     });
 
     test('check validation for a range of chars', () {
+      var bigEnoughMessage = UserMessage(
+          label: 'Big enough', level: MessageLevel.info, category: 'length');
+      var tooSmallMessage = UserMessage(
+          label: 'Too small', level: MessageLevel.error, category: 'length');
       final minRule = FieldRule(
         name: 'chars more than',
-        options: {'min': '1'},
-        successMessages: [
-          UserMessage(
-              label: 'Big enough', level: MessageLevel.info, category: 'length')
-        ],
-        failureMessages: [
-          UserMessage(
-              label: 'Too small', level: MessageLevel.error, category: 'length')
-        ],
+        options: {'text#minChars': '1'},
+        successMessages: [bigEnoughMessage],
+        failureMessages: [tooSmallMessage],
       );
+      var smallEnoughMessage = UserMessage(
+          label: 'Small enough', level: MessageLevel.info, category: 'length');
+      var tooBigMessage = UserMessage(
+          label: 'Too big', level: MessageLevel.error, category: 'length');
       final maxRule = FieldRule(
         name: 'chars less than or equal',
-        options: {'max': '30'},
-        successMessages: [
-          UserMessage(
-              label: 'Small enough',
-              level: MessageLevel.info,
-              category: 'length')
-        ],
-        failureMessages: [
-          UserMessage(
-              label: 'Too big', level: MessageLevel.error, category: 'length')
-        ],
+        options: {'text#maxChars': '30'},
+        successMessages: [smallEnoughMessage],
+        failureMessages: [tooBigMessage],
       );
       final event = FieldEvent(
         name: 'OnCharChange',
@@ -52,7 +46,8 @@ void main() {
           metricStoreHolder: metricStoreHolder,
           optionsInventory: optionsInventory);
       final textRule = builder.build();
-      textRule.validate('some text');
+      final messages = textRule.validate('some text');
+      expect(messages, [bigEnoughMessage, smallEnoughMessage]);
       expectNoMetricError(metricStoreHolder);
     });
   });

@@ -7,6 +7,7 @@ class TextFieldEventBuilder {
   final FieldEvent fieldEvent;
   final ExMetricStoreHolder metricStoreHolder;
   final VxOptionsInventory optionsInventory;
+  final String name = 'text';
 
   TextFieldEventBuilder(
       {required this.fieldEvent,
@@ -45,13 +46,9 @@ class TextFieldEventBuilder {
     }
   }
 
-  String _createName(FieldRule fieldRule) {
-    return '${fieldEvent.name}_${fieldRule.name.replaceAll(' ', '-')}';
-  }
-
   BaseUserRule _buildCharsLessThan(FieldRule fieldRule) {
     final rule = VxStringRules.charsLessThan<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
@@ -61,7 +58,7 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildCharsMoreThan(FieldRule fieldRule) {
     final rule = VxStringRules.charsMoreThan<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
@@ -71,7 +68,7 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildCharsLessThanOrEqual(FieldRule fieldRule) {
     final rule = VxStringRules.charsLessThanOrEqual<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
@@ -81,7 +78,7 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildcharsMoreThanOrEqual(FieldRule fieldRule) {
     final rule = VxStringRules.charsMoreThanOrEqual<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
@@ -91,7 +88,7 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildWordsLessThan(FieldRule fieldRule) {
     final rule = VxStringRules.wordsLessThan<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
@@ -101,7 +98,7 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildWordsLessThanOrEqual(FieldRule fieldRule) {
     final rule = VxStringRules.wordsLessThanOrEqual<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
@@ -111,7 +108,7 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildWordsMoreThan(FieldRule fieldRule) {
     final rule = VxStringRules.wordsMoreThan<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
@@ -121,7 +118,7 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildWordsMoreThanOrEqual(FieldRule fieldRule) {
     final rule = VxStringRules.wordsMoreThanOrEqual<UserMessage>(
-        name: _createName(fieldRule),
+        name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
