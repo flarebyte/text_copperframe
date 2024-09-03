@@ -11,6 +11,11 @@ class UserMessage {
   /// The category of the message, which can be any user-defined string.
   final String category;
 
+  @override
+  String toString() {
+    return '$level $label';
+  }
+
   /// Constructs a [UserMessage] with the provided [label], [level], and [category].
   UserMessage({
     required this.label,
