@@ -15,9 +15,14 @@ class TextFieldEventBuilder {
       required this.optionsInventory});
 
   TcfRuleComposer build() {
-    final charChangeRules = fieldEvent.rules
-        .map((fieldRule) => _buildRule(fieldRule))
-        .whereType<BaseUserRule>();
+    final List<BaseUserRule> charChangeRules = [];
+    for (var fieldRule in fieldEvent.rules) {
+      final ruleItem = _buildRule(fieldRule);
+      if (ruleItem != null) {
+        charChangeRules.add(ruleItem);
+      }
+    }
+
     return TcfRuleComposer(charChangeRules);
   }
 
@@ -53,7 +58,7 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
   BaseUserRule _buildCharsMoreThan(FieldRule fieldRule) {
@@ -63,7 +68,7 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
   BaseUserRule _buildCharsLessThanOrEqual(FieldRule fieldRule) {
@@ -73,7 +78,7 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
   BaseUserRule _buildcharsMoreThanOrEqual(FieldRule fieldRule) {
@@ -83,7 +88,7 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
   BaseUserRule _buildWordsLessThan(FieldRule fieldRule) {
@@ -93,7 +98,7 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
   BaseUserRule _buildWordsLessThanOrEqual(FieldRule fieldRule) {
@@ -103,7 +108,7 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
   BaseUserRule _buildWordsMoreThan(FieldRule fieldRule) {
@@ -113,7 +118,7 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
   BaseUserRule _buildWordsMoreThanOrEqual(FieldRule fieldRule) {
@@ -123,6 +128,6 @@ class TextFieldEventBuilder {
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
         failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
-    return UserRule(rule: rule, options: fieldRule.options);
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 }

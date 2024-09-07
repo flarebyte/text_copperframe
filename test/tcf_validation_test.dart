@@ -46,9 +46,9 @@ void main() {
           metricStoreHolder: metricStoreHolder,
           optionsInventory: optionsInventory);
       final textRule = builder.build();
-      // expect(textRule.validate('some text'),
-      //     [bigEnoughMessage, smallEnoughMessage]);
-      //expect(textRule.validate(''), [tooSmallMessage, smallEnoughMessage]);
+      expect(textRule.validate('some text'),
+          [bigEnoughMessage, smallEnoughMessage]);
+      expect(textRule.validate(''), [tooSmallMessage, smallEnoughMessage]);
       expect(textRule.validate('A' * 100), [bigEnoughMessage, tooBigMessage]);
       expectNoMetricError(metricStoreHolder);
     });
