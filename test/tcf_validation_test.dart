@@ -127,5 +127,32 @@ void main() {
           metricStoreHolder: metricStoreHolder,
           expectations: ['greater-than', 'text#minChars', 'not-found']);
     });
+
+    test('check missing rule', () {
+      var anyMessage = UserMessage(
+          label: 'We should never see this message',
+          level: MessageLevel.info,
+          category: 'length');
+      final minRule = FieldRule(
+        name: 'this rule does not exist',
+        options: {},
+        successMessages: [anyMessage],
+        failureMessages: [anyMessage],
+      );
+
+      final event = FieldEvent(
+        name: 'OnCharChange',
+        rules: [minRule],
+      );
+      final builder = TextFieldEventBuilder(
+          fieldEvent: event,
+          metricStoreHolder: metricStoreHolder,
+          optionsInventory: optionsInventory);
+      final textRule = builder.build();
+      textRule.validate('some text');
+      expectMetricError(
+          metricStoreHolder: metricStoreHolder,
+          expectations: ['this rule does not exist', 'not-found']);
+    });
   });
 }
