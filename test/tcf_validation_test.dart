@@ -16,42 +16,48 @@ void main() {
       optionsInventory = VxOptionsInventory();
     });
 
-    test('check validation for a range of chars', () {
-      var bigEnoughMessage = UserMessage(
-          label: 'Big enough', level: MessageLevel.info, category: 'length');
-      var tooSmallMessage = UserMessage(
-          label: 'Too small', level: MessageLevel.error, category: 'length');
-      final minRule = FieldRule(
-        name: 'chars more than',
-        options: {'text#minChars': '1'},
-        successMessages: [bigEnoughMessage],
-        failureMessages: [tooSmallMessage],
-      );
-      var smallEnoughMessage = UserMessage(
-          label: 'Small enough', level: MessageLevel.info, category: 'length');
-      var tooBigMessage = UserMessage(
-          label: 'Too big', level: MessageLevel.error, category: 'length');
-      final maxRule = FieldRule(
-        name: 'chars less than or equal',
-        options: {'text#maxChars': '30'},
-        successMessages: [smallEnoughMessage],
-        failureMessages: [tooBigMessage],
-      );
-      final event = FieldEvent(
-        name: 'OnCharChange',
-        rules: [minRule, maxRule],
-      );
-      final builder = TextFieldEventBuilder(
-          fieldEvent: event,
-          metricStoreHolder: metricStoreHolder,
-          optionsInventory: optionsInventory);
-      final textRule = builder.build();
-      expect(textRule.validate('some text'),
-          [bigEnoughMessage, smallEnoughMessage]);
-      expect(textRule.validate(''), [tooSmallMessage, smallEnoughMessage]);
-      expect(textRule.validate('A' * 100), [bigEnoughMessage, tooBigMessage]);
-      expectNoMetricError(metricStoreHolder);
-    });
+    for (var strictness in ['', ' or equal']) {
+      final strictnessLabel = strictness == '' ? 'strict' : 'accept equal';
+
+      test('check validation for a range of chars when $strictnessLabel', () {
+        var bigEnoughMessage = UserMessage(
+            label: 'Big enough', level: MessageLevel.info, category: 'length');
+        var tooSmallMessage = UserMessage(
+            label: 'Too small', level: MessageLevel.error, category: 'length');
+        final minRule = FieldRule(
+          name: 'chars more than$strictness',
+          options: {'text#minChars': '1'},
+          successMessages: [bigEnoughMessage],
+          failureMessages: [tooSmallMessage],
+        );
+        var smallEnoughMessage = UserMessage(
+            label: 'Small enough',
+            level: MessageLevel.info,
+            category: 'length');
+        var tooBigMessage = UserMessage(
+            label: 'Too big', level: MessageLevel.error, category: 'length');
+        final maxRule = FieldRule(
+          name: 'chars less than$strictness',
+          options: {'text#maxChars': '30'},
+          successMessages: [smallEnoughMessage],
+          failureMessages: [tooBigMessage],
+        );
+        final event = FieldEvent(
+          name: 'OnCharChange',
+          rules: [minRule, maxRule],
+        );
+        final builder = TextFieldEventBuilder(
+            fieldEvent: event,
+            metricStoreHolder: metricStoreHolder,
+            optionsInventory: optionsInventory);
+        final textRule = builder.build();
+        expect(textRule.validate('some text'),
+            [bigEnoughMessage, smallEnoughMessage]);
+        expect(textRule.validate(''), [tooSmallMessage, smallEnoughMessage]);
+        expect(textRule.validate('A' * 100), [bigEnoughMessage, tooBigMessage]);
+        expectNoMetricError(metricStoreHolder);
+      });
+    }
     test('check missing prop for validation', () {
       var anyMessage = UserMessage(
           label: 'We should never see this message',
@@ -77,43 +83,6 @@ void main() {
       expectMetricError(
           metricStoreHolder: metricStoreHolder,
           expectations: ['greater-than', 'text#minChars', 'not-found']);
-    });
-
-    test('check validation for diverse chars comparators', () {
-      var bigEnoughMessage = UserMessage(
-          label: 'Big enough', level: MessageLevel.info, category: 'length');
-      var tooSmallMessage = UserMessage(
-          label: 'Too small', level: MessageLevel.error, category: 'length');
-      final minRule = FieldRule(
-        name: 'chars more than or equal',
-        options: {'text#minChars': '1'},
-        successMessages: [bigEnoughMessage],
-        failureMessages: [tooSmallMessage],
-      );
-      var smallEnoughMessage = UserMessage(
-          label: 'Small enough', level: MessageLevel.info, category: 'length');
-      var tooBigMessage = UserMessage(
-          label: 'Too big', level: MessageLevel.error, category: 'length');
-      final maxRule = FieldRule(
-        name: 'chars less than',
-        options: {'text#maxChars': '30'},
-        successMessages: [smallEnoughMessage],
-        failureMessages: [tooBigMessage],
-      );
-      final event = FieldEvent(
-        name: 'OnCharChange',
-        rules: [minRule, maxRule],
-      );
-      final builder = TextFieldEventBuilder(
-          fieldEvent: event,
-          metricStoreHolder: metricStoreHolder,
-          optionsInventory: optionsInventory);
-      final textRule = builder.build();
-      expect(textRule.validate('some text'),
-          [bigEnoughMessage, smallEnoughMessage]);
-      expect(textRule.validate(''), [tooSmallMessage, smallEnoughMessage]);
-      expect(textRule.validate('A' * 100), [bigEnoughMessage, tooBigMessage]);
-      expectNoMetricError(metricStoreHolder);
     });
   });
 }
