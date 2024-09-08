@@ -85,7 +85,7 @@ void main() {
       var tooSmallMessage = UserMessage(
           label: 'Too small', level: MessageLevel.error, category: 'length');
       final minRule = FieldRule(
-        name: 'chars more than',
+        name: 'chars more than or equal',
         options: {'text#minChars': '1'},
         successMessages: [bigEnoughMessage],
         failureMessages: [tooSmallMessage],
@@ -95,7 +95,7 @@ void main() {
       var tooBigMessage = UserMessage(
           label: 'Too big', level: MessageLevel.error, category: 'length');
       final maxRule = FieldRule(
-        name: 'chars less than or equal',
+        name: 'chars less than',
         options: {'text#maxChars': '30'},
         successMessages: [smallEnoughMessage],
         failureMessages: [tooBigMessage],
