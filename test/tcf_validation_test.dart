@@ -58,6 +58,49 @@ void main() {
         expectNoMetricError(metricStoreHolder);
       });
     }
+    for (var strictness in ['', ' or equal']) {
+      final strictnessLabel = strictness == '' ? 'strict' : 'accept equal';
+
+      test('check validation for a range of words when $strictnessLabel', () {
+        var bigEnoughMessage = UserMessage(
+            label: 'Big enough', level: MessageLevel.info, category: 'length');
+        var tooSmallMessage = UserMessage(
+            label: 'Too small', level: MessageLevel.error, category: 'length');
+        final minRule = FieldRule(
+          name: 'words more than$strictness',
+          options: {'text#minWords': '2'},
+          successMessages: [bigEnoughMessage],
+          failureMessages: [tooSmallMessage],
+        );
+        var smallEnoughMessage = UserMessage(
+            label: 'Small enough',
+            level: MessageLevel.info,
+            category: 'length');
+        var tooBigMessage = UserMessage(
+            label: 'Too big', level: MessageLevel.error, category: 'length');
+        final maxRule = FieldRule(
+          name: 'words less than$strictness',
+          options: {'text#maxWords': '30'},
+          successMessages: [smallEnoughMessage],
+          failureMessages: [tooBigMessage],
+        );
+        final event = FieldEvent(
+          name: 'OnCharChange',
+          rules: [minRule, maxRule],
+        );
+        final builder = TextFieldEventBuilder(
+            fieldEvent: event,
+            metricStoreHolder: metricStoreHolder,
+            optionsInventory: optionsInventory);
+        final textRule = builder.build();
+        expect(textRule.validate('three little words'),
+            [bigEnoughMessage, smallEnoughMessage]);
+        expect(textRule.validate('one'), [tooSmallMessage, smallEnoughMessage]);
+        expect(textRule.validate('word ' * 100),
+            [bigEnoughMessage, tooBigMessage]);
+        expectNoMetricError(metricStoreHolder);
+      });
+    }
     test('check missing prop for validation', () {
       var anyMessage = UserMessage(
           label: 'We should never see this message',
