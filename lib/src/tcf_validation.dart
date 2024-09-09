@@ -45,8 +45,12 @@ class TextFieldEventBuilder {
       case 'words more than or equal':
         return _buildWordsMoreThanOrEqual(rule);
       default:
-        metricStoreHolder.store
-            .addMetric(TcfMetrics.getRuleNotFound(rule.name), 1);
+        metricStoreHolder.store.addMetric(
+            TcfMetrics.getRuleNotFound(
+                id: rule.name,
+                page: rule.options['page'],
+                pageRow: rule.options['pageRow']),
+            1);
         return null;
     }
   }

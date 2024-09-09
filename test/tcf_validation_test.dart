@@ -135,7 +135,7 @@ void main() {
           category: 'length');
       final minRule = FieldRule(
         name: 'this rule does not exist',
-        options: {},
+        options: {'text#pageRow': 'row123'},
         successMessages: [anyMessage],
         failureMessages: [anyMessage],
       );
@@ -152,7 +152,7 @@ void main() {
       textRule.validate('some text');
       expectMetricError(
           metricStoreHolder: metricStoreHolder,
-          expectations: ['this rule does not exist', 'not-found']);
+          expectations: ['this rule does not exist', 'not-found', 'row123']);
     });
   });
 }
