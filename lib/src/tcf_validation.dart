@@ -8,11 +8,15 @@ class TextFieldEventBuilder {
   final ExMetricStoreHolder metricStoreHolder;
   final VxOptionsInventory optionsInventory;
   final String name = 'text';
+  final Map<String, String> widgetOptions;
+  final Map<String, String> pageOptions;
 
   TextFieldEventBuilder(
       {required this.fieldEvent,
       required this.metricStoreHolder,
-      required this.optionsInventory});
+      required this.optionsInventory,
+      required this.widgetOptions,
+      required this.pageOptions});
 
   TcfRuleComposer build() {
     final List<BaseUserRule> charChangeRules = [];
@@ -48,8 +52,8 @@ class TextFieldEventBuilder {
         metricStoreHolder.store.addMetric(
             TcfMetrics.getRuleNotFound(
                 id: rule.name,
-                page: rule.options['page'],
-                pageRow: rule.options['pageRow']),
+                page: pageOptions['page'],
+                pageRow: rule.options['text#pageRow']),
             1);
         return null;
     }

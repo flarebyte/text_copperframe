@@ -49,7 +49,9 @@ void main() {
         final builder = TextFieldEventBuilder(
             fieldEvent: event,
             metricStoreHolder: metricStoreHolder,
-            optionsInventory: optionsInventory);
+            optionsInventory: optionsInventory,
+            widgetOptions: {},
+            pageOptions: {'page': 'page789'});
         final textRule = builder.build();
         expect(textRule.validate('some text'),
             [bigEnoughMessage, smallEnoughMessage]);
@@ -91,7 +93,9 @@ void main() {
         final builder = TextFieldEventBuilder(
             fieldEvent: event,
             metricStoreHolder: metricStoreHolder,
-            optionsInventory: optionsInventory);
+            optionsInventory: optionsInventory,
+            widgetOptions: {},
+            pageOptions: {'page': 'page789'});
         final textRule = builder.build();
         expect(textRule.validate('three little words'),
             [bigEnoughMessage, smallEnoughMessage]);
@@ -120,7 +124,9 @@ void main() {
       final builder = TextFieldEventBuilder(
           fieldEvent: event,
           metricStoreHolder: metricStoreHolder,
-          optionsInventory: optionsInventory);
+          optionsInventory: optionsInventory,
+          widgetOptions: {},
+          pageOptions: {'page': 'page789'});
       final textRule = builder.build();
       textRule.validate('some text');
       expectMetricError(
@@ -147,9 +153,12 @@ void main() {
       final builder = TextFieldEventBuilder(
           fieldEvent: event,
           metricStoreHolder: metricStoreHolder,
-          optionsInventory: optionsInventory);
+          optionsInventory: optionsInventory,
+          widgetOptions: {},
+          pageOptions: {'page': 'page789'});
       final textRule = builder.build();
       textRule.validate('some text');
+      expectNoMetricError(metricStoreHolder);
       expectMetricError(
           metricStoreHolder: metricStoreHolder,
           expectations: ['this rule does not exist', 'not-found', 'row123']);

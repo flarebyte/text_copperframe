@@ -6,7 +6,7 @@ class TcfMetrics {
   static ExMetricKey getRuleNotFound(
       {required String id, String? page, String? pageRow}) {
     final withPage = page != null ? {'page': page} : {};
-    final withPageRow = page != null
+    final withPageRow = pageRow != null
         ? {
             'pageRow': pageRow,
           }
