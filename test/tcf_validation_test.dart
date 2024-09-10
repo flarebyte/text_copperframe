@@ -105,6 +105,38 @@ void main() {
         expectNoMetricError(metricStoreHolder);
       });
     }
+
+    test('check validation for a url', () {
+      var validMessage = UserMessage(
+          label: 'Valid', level: MessageLevel.info, category: 'url');
+      var invalidMessage = UserMessage(
+          label: 'Invalid', level: MessageLevel.error, category: 'url');
+      final minRule = FieldRule(
+        name: 'url',
+        options: {
+          'text~allowDomains': 'en.wikipedia.org dart.dev',
+          'text~secure': 'true'
+        },
+        successMessages: [validMessage],
+        failureMessages: [invalidMessage],
+      );
+      final event = FieldEvent(
+        name: 'OnCharChange',
+        rules: [minRule],
+      );
+      final builder = TextFieldEventBuilder(
+          fieldEvent: event,
+          metricStoreHolder: metricStoreHolder,
+          optionsInventory: optionsInventory,
+          widgetOptions: {},
+          pageOptions: {'page': 'page789'});
+      final textRule = builder.build();
+      expect(textRule.validate('https://en.wikipedia.com/wiki/Henry_VIII'),
+          [validMessage]);
+      expect(textRule.validate('https://en.other.com/wiki/Henry_VIII'),
+          [invalidMessage]);
+      expectNoMetricError(metricStoreHolder);
+    });
     test('check missing prop for validation', () {
       var anyMessage = UserMessage(
           label: 'We should never see this message',
