@@ -111,6 +111,16 @@ void main() {
           label: 'Valid', level: MessageLevel.info, category: 'url');
       var invalidMessage = UserMessage(
           label: 'Invalid', level: MessageLevel.error, category: 'url');
+      var invalidDomainMessage = UserMessage(
+          label: 'Invalid domain',
+          level: MessageLevel.error,
+          category: 'url',
+          flags: 'domain');
+      var insecureMessage = UserMessage(
+          label: 'Insecure',
+          level: MessageLevel.error,
+          category: 'url',
+          flags: 'secure');
       final urlRule = FieldRule(
         name: 'url',
         options: {
@@ -118,7 +128,11 @@ void main() {
           'text~secure': 'true'
         },
         successMessages: [validMessage],
-        failureMessages: [invalidMessage],
+        failureMessages: [
+          invalidMessage,
+          invalidDomainMessage,
+          insecureMessage
+        ],
       );
       final event = FieldEvent(
         name: 'OnCharChange',
@@ -133,8 +147,11 @@ void main() {
       final textRule = builder.build();
       expect(textRule.validate('https://en.wikipedia.org/wiki/Henry_VIII'),
           [validMessage]);
+      expect(textRule.validate('not a url'), [invalidMessage]);
       expect(textRule.validate('https://en.other.com/wiki/Henry_VIII'),
-          [invalidMessage]);
+          [invalidDomainMessage]);
+      expect(textRule.validate('http://en.wikipedia.org/wiki/Henry_VIII'),
+          [insecureMessage]);
       expectNoMetricError(metricStoreHolder);
     });
     test('check missing prop for validation', () {

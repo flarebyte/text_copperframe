@@ -147,7 +147,11 @@ class TextFieldEventBuilder {
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
         successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]),
+        domainFailureProducer:
+            UserMessageProducer(fieldRule.failureMessages[1]),
+        secureFailureProducer:
+            UserMessageProducer(fieldRule.failureMessages[2]));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 }
