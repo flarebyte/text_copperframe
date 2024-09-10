@@ -11,6 +11,9 @@ class UserMessage {
   /// The category of the message, which can be any user-defined string.
   final String category;
 
+  /// A list of flags associated with the message.
+  final String? flags;
+
   @override
   String toString() {
     return '$level $label';
@@ -21,6 +24,7 @@ class UserMessage {
     required this.label,
     required this.level,
     required this.category,
+    this.flags,
   });
 
   /// Serializes this [UserMessage] to a JSON-compatible map.
@@ -31,6 +35,7 @@ class UserMessage {
       'label': label,
       'level': level.toString().split('.').last,
       'category': category,
+      'flags': flags,
     };
   }
 
@@ -45,6 +50,7 @@ class UserMessage {
         label: json['label'],
         level: MessageLevelExtension.fromString(json['level']),
         category: json['category'],
+        flags: json['flags'],
       );
     } else {
       throw FormatException('Missing required fields in JSON');
