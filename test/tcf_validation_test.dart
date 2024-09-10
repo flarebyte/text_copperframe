@@ -111,7 +111,7 @@ void main() {
           label: 'Valid', level: MessageLevel.info, category: 'url');
       var invalidMessage = UserMessage(
           label: 'Invalid', level: MessageLevel.error, category: 'url');
-      final minRule = FieldRule(
+      final urlRule = FieldRule(
         name: 'url',
         options: {
           'text~allowDomains': 'en.wikipedia.org dart.dev',
@@ -122,7 +122,7 @@ void main() {
       );
       final event = FieldEvent(
         name: 'OnCharChange',
-        rules: [minRule],
+        rules: [urlRule],
       );
       final builder = TextFieldEventBuilder(
           fieldEvent: event,
@@ -131,7 +131,7 @@ void main() {
           widgetOptions: {},
           pageOptions: {'page': 'page789'});
       final textRule = builder.build();
-      expect(textRule.validate('https://en.wikipedia.com/wiki/Henry_VIII'),
+      expect(textRule.validate('https://en.wikipedia.org/wiki/Henry_VIII'),
           [validMessage]);
       expect(textRule.validate('https://en.other.com/wiki/Henry_VIII'),
           [invalidMessage]);

@@ -48,6 +48,8 @@ class TextFieldEventBuilder {
         return _buildWordsMoreThan(rule);
       case 'words more than or equal':
         return _buildWordsMoreThanOrEqual(rule);
+      case 'url':
+        return _buildUrl(rule);
       default:
         metricStoreHolder.store.addMetric(
             TcfMetrics.getRuleNotFound(
@@ -131,6 +133,16 @@ class TextFieldEventBuilder {
 
   BaseUserRule _buildWordsMoreThanOrEqual(FieldRule fieldRule) {
     final rule = VxStringRules.wordsMoreThanOrEqual<UserMessage>(
+        name: name,
+        metricStoreHolder: metricStoreHolder,
+        optionsInventory: optionsInventory,
+        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
+        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+  }
+
+  BaseUserRule _buildUrl(FieldRule fieldRule) {
+    final rule = VxUrlRule<UserMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
