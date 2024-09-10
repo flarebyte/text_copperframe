@@ -158,10 +158,12 @@ void main() {
           pageOptions: {'page': 'page789'});
       final textRule = builder.build();
       textRule.validate('some text');
-      expectNoMetricError(metricStoreHolder);
-      expectMetricError(
-          metricStoreHolder: metricStoreHolder,
-          expectations: ['this rule does not exist', 'not-found', 'row123']);
+      expectMetricError(metricStoreHolder: metricStoreHolder, expectations: [
+        'this rule does not exist',
+        'not-found',
+        'page789',
+        'row123'
+      ]);
     });
   });
 }
