@@ -56,6 +56,17 @@ class UserMessage {
       throw FormatException('Missing required fields in JSON');
     }
   }
+
+  static List<UserMessage> getMessagesWithFlag(
+      List<UserMessage> messages, String tag) {
+    return messages
+        .where((message) => (message.flags ?? '').contains(tag))
+        .toList();
+  }
+
+  static List<UserMessage> getMessagesWithNoFlag(List<UserMessage> messages) {
+    return messages.where((message) => (message.flags ?? '').isEmpty).toList();
+  }
 }
 
 /// Enum representing the level of the message.
@@ -241,6 +252,10 @@ class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
   UserMessageProducer(this.message);
   @override
   UserMessage produce(Map<String, String> options, String value) => message;
+
+  static List<UserMessageProducer> createProducers(List<UserMessage> messages) {
+    return messages.map((message) => UserMessageProducer(message)).toList();
+  }
 }
 
 abstract class BaseUserRule {

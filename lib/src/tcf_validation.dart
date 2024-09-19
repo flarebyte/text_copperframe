@@ -66,8 +66,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -76,8 +78,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -86,8 +90,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -96,8 +102,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -106,8 +114,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -116,8 +126,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -126,8 +138,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -136,8 +150,10 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers:
+            UserMessageProducer.createProducers(fieldRule.failureMessages));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 
@@ -146,12 +162,16 @@ class TextFieldEventBuilder {
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducer: UserMessageProducer(fieldRule.successMessages[0]),
-        failureProducer: UserMessageProducer(fieldRule.failureMessages[0]),
-        domainFailureProducer:
-            UserMessageProducer(fieldRule.failureMessages[1]),
-        secureFailureProducer:
-            UserMessageProducer(fieldRule.failureMessages[2]));
+        successProducers:
+            UserMessageProducer.createProducers(fieldRule.successMessages),
+        failureProducers: UserMessageProducer.createProducers(
+            UserMessage.getMessagesWithNoFlag(fieldRule.failureMessages)),
+        domainFailureProducers: UserMessageProducer.createProducers(
+            UserMessage.getMessagesWithFlag(
+                fieldRule.failureMessages, 'domain')),
+        secureFailureProducers: UserMessageProducer.createProducers(
+            UserMessage.getMessagesWithFlag(
+                fieldRule.failureMessages, 'secure')));
     return UserRule(rule: rule, options: Map.from(fieldRule.options));
   }
 }
