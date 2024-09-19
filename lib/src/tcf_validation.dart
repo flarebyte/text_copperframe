@@ -55,7 +55,7 @@ class TextFieldEventBuilder {
             TcfMetrics.getRuleNotFound(
                 id: rule.name,
                 page: pageOptions['page'],
-                pageRow: rule.options['text#pageRow']),
+                pageRow: rule.options['pageRow']),
             1);
         return null;
     }

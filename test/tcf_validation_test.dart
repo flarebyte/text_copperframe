@@ -190,7 +190,7 @@ void main() {
           category: 'length');
       final minRule = FieldRule(
         name: 'this rule does not exist',
-        options: {'text#pageRow': 'row123'},
+        options: {'pageRow': 'row123'},
         successMessages: [anyMessage],
         failureMessages: [anyMessage],
       );
