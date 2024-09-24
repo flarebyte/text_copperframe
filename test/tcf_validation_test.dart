@@ -174,13 +174,17 @@ void main() {
           fieldEvent: event,
           metricStoreHolder: metricStoreHolder,
           optionsInventory: optionsInventory,
-          widgetOptions: {},
+          widgetOptions: {'pageRow': 'row123'},
           pageOptions: {'page': 'page789'});
       final textRule = builder.build();
       textRule.validate('some text');
-      expectMetricError(
-          metricStoreHolder: metricStoreHolder,
-          expectations: ['greater-than', 'text#minChars', 'not-found']);
+      expectMetricError(metricStoreHolder: metricStoreHolder, expectations: [
+        'greater-than',
+        'text#minChars',
+        'not-found',
+        'page789',
+        'row123'
+      ]);
     });
 
     test('check missing rule', () {

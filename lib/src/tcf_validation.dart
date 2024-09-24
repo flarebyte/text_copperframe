@@ -30,6 +30,14 @@ class TextFieldEventBuilder {
     return TcfRuleComposer(charChangeRules);
   }
 
+  /// Merges the options from the page, widget and field rules
+  Map<String, String> _mergeOptions(Map<String, String> fieldRuleOpts) {
+    final Map<String, String> mergedOpts = Map.from(pageOptions);
+    mergedOpts.addAll(widgetOptions);
+    mergedOpts.addAll(fieldRuleOpts);
+    return mergedOpts;
+  }
+
   BaseUserRule? _buildRule(FieldRule rule) {
     switch (rule.name) {
       case 'chars less than':
@@ -70,7 +78,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildCharsMoreThan(FieldRule fieldRule) {
@@ -82,7 +90,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildCharsLessThanOrEqual(FieldRule fieldRule) {
@@ -94,7 +102,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildcharsMoreThanOrEqual(FieldRule fieldRule) {
@@ -106,7 +114,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildWordsLessThan(FieldRule fieldRule) {
@@ -118,7 +126,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildWordsLessThanOrEqual(FieldRule fieldRule) {
@@ -130,7 +138,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildWordsMoreThan(FieldRule fieldRule) {
@@ -142,7 +150,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildWordsMoreThanOrEqual(FieldRule fieldRule) {
@@ -154,7 +162,7 @@ class TextFieldEventBuilder {
             UserMessageProducer.createProducers(fieldRule.successMessages),
         failureProducers:
             UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
   BaseUserRule _buildUrl(FieldRule fieldRule) {
@@ -172,6 +180,6 @@ class TextFieldEventBuilder {
         secureFailureProducers: UserMessageProducer.createProducers(
             UserMessage.getMessagesWithFlag(
                 fieldRule.failureMessages, 'secure')));
-    return UserRule(rule: rule, options: Map.from(fieldRule.options));
+    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
   }
 }
