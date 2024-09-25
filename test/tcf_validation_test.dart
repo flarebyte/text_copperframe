@@ -261,5 +261,37 @@ void main() {
         'row123'
       ]);
     });
+
+    test('check inventory', () {
+      var anyMessage = UserMessage(
+          label: 'We should never see this message',
+          level: MessageLevel.info,
+          category: 'length');
+      final minRule = FieldRule(
+        name: 'chars more than',
+        options: {},
+        successMessages: [anyMessage],
+        failureMessages: [anyMessage],
+      );
+
+      final event = FieldEvent(
+        name: 'OnCharChange',
+        rules: [minRule],
+      );
+
+      final builder = TextFieldEventBuilder(
+          fieldEvent: event,
+          metricStoreHolder: metricStoreHolder,
+          optionsInventory: optionsInventory,
+          widgetOptions: {},
+          pageOptions: {});
+
+      builder.build();
+      final inventoryKeyList = optionsInventory
+          .toList()
+          .map((key) => '${key.name},${key.descriptors.join(" ")}')
+          .toList();
+      expect(inventoryKeyList, ['text#minChars,integer positive']);
+    });
   });
 }
