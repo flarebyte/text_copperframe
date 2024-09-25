@@ -3,6 +3,18 @@ import 'package:text_copperframe/src/higher_model.dart';
 import 'package:text_copperframe/src/tcf_metrics.dart';
 import 'package:validomix/validomix.dart';
 
+class TextFieldEventNames {
+  static const charsLessThan = 'chars less than';
+  static const charsLessThanOrEqual = 'chars less than or equal';
+  static const charsMoreThan = 'chars more than';
+  static const charsMoreThanOrEqual = 'chars more than or equal';
+  static const wordsLessThan = 'words less than';
+  static const wordsLessThanOrEqual = 'words less than or equal';
+  static const wordsMoreThan = 'words more than';
+  static const wordsMoreThanOrEqual = 'words more than or equal';
+  static const url = 'url';
+}
+
 class TextFieldEventBuilder {
   final FieldEvent fieldEvent;
   final ExMetricStoreHolder metricStoreHolder;
@@ -40,23 +52,23 @@ class TextFieldEventBuilder {
 
   BaseUserRule? _buildRule(FieldRule rule) {
     switch (rule.name) {
-      case 'chars less than':
+      case TextFieldEventNames.charsLessThan:
         return _buildCharsLessThan(rule);
-      case 'chars less than or equal':
+      case TextFieldEventNames.charsLessThanOrEqual:
         return _buildCharsLessThanOrEqual(rule);
-      case 'chars more than':
+      case TextFieldEventNames.charsMoreThan:
         return _buildCharsMoreThan(rule);
-      case 'chars more than or equal':
+      case TextFieldEventNames.charsMoreThanOrEqual:
         return _buildcharsMoreThanOrEqual(rule);
-      case 'words less than':
+      case TextFieldEventNames.wordsLessThan:
         return _buildWordsLessThan(rule);
-      case 'words less than or equal':
+      case TextFieldEventNames.wordsLessThanOrEqual:
         return _buildWordsLessThanOrEqual(rule);
-      case 'words more than':
+      case TextFieldEventNames.wordsMoreThan:
         return _buildWordsMoreThan(rule);
-      case 'words more than or equal':
+      case TextFieldEventNames.wordsMoreThanOrEqual:
         return _buildWordsMoreThanOrEqual(rule);
-      case 'url':
+      case TextFieldEventNames.url:
         return _buildUrl(rule);
       default:
         metricStoreHolder.store.addMetric(
