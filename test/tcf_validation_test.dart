@@ -166,9 +166,20 @@ void main() {
         failureMessages: [anyMessage],
       );
 
+      final minRuleWithMetricInfo = FieldRule(
+        name: 'chars more than',
+        options: {'page': 'page789', 'pageRow': 'row123'},
+        successMessages: [anyMessage],
+        failureMessages: [anyMessage],
+      );
+
       final event = FieldEvent(
         name: 'OnCharChange',
         rules: [minRule],
+      );
+      final eventWithMetricInfo = FieldEvent(
+        name: 'OnCharChange',
+        rules: [minRuleWithMetricInfo],
       );
       final builders = [
         TextFieldEventBuilder(
@@ -194,7 +205,19 @@ void main() {
             metricStoreHolder: metricStoreHolder,
             optionsInventory: optionsInventory,
             widgetOptions: {'page': 'page789', 'pageRow': 'row123'},
-            pageOptions: {'page': 'pageOpts789', 'pageRow': 'rowOpts123'})
+            pageOptions: {'page': 'pageOpts789', 'pageRow': 'rowOpts123'}),
+        TextFieldEventBuilder(
+            fieldEvent: eventWithMetricInfo,
+            metricStoreHolder: metricStoreHolder,
+            optionsInventory: optionsInventory,
+            widgetOptions: {},
+            pageOptions: {}),
+        TextFieldEventBuilder(
+            fieldEvent: eventWithMetricInfo,
+            metricStoreHolder: metricStoreHolder,
+            optionsInventory: optionsInventory,
+            widgetOptions: {},
+            pageOptions: {'page': 'pageOpts789', 'pageRow': 'rowOpts123'}),
       ];
       for (var builder in builders) {
         final textRule = builder.build();
