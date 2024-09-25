@@ -267,8 +267,7 @@ void main() {
           label: 'We should never see this message',
           level: MessageLevel.info,
           category: 'length');
-      final names = ['chars more than', 'chars less than'];
-      final List<FieldRule> rules = names
+      final List<FieldRule> rules = TextFieldEventNames.all
           .map((name) => FieldRule(
                 name: name,
                 options: {},
@@ -294,8 +293,17 @@ void main() {
           .toList()
           .map((key) => '${key.name},${key.descriptors.join(" ")}')
           .toList();
-      expect(inventoryKeyList,
-          ['text#maxChars,integer positive', 'text#minChars,integer positive']);
+      expect(inventoryKeyList, [
+        'text#maxChars,integer positive',
+        'text#maxWords,integer positive',
+        'text#minChars,integer positive',
+        'text#minWords,integer positive',
+        'text~allowDomains,string list',
+        'text~allowFragment,boolean',
+        'text~allowIP,boolean',
+        'text~allowQuery,boolean',
+        'text~secure,boolean'
+      ]);
     });
   });
 }

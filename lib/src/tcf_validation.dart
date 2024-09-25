@@ -13,6 +13,17 @@ class TextFieldEventNames {
   static const wordsMoreThan = 'words more than';
   static const wordsMoreThanOrEqual = 'words more than or equal';
   static const url = 'url';
+  static const all = [
+    charsLessThan,
+    charsLessThanOrEqual,
+    charsMoreThan,
+    charsMoreThanOrEqual,
+    wordsLessThan,
+    wordsLessThanOrEqual,
+    wordsMoreThan,
+    wordsMoreThanOrEqual,
+    url
+  ];
 }
 
 class TextFieldEventBuilder {
