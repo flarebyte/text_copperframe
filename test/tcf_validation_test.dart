@@ -267,16 +267,19 @@ void main() {
           label: 'We should never see this message',
           level: MessageLevel.info,
           category: 'length');
-      final minRule = FieldRule(
-        name: 'chars more than',
-        options: {},
-        successMessages: [anyMessage],
-        failureMessages: [anyMessage],
-      );
+      final names = ['chars more than'];
+      final List<FieldRule> rules = names
+          .map((name) => FieldRule(
+                name: name,
+                options: {},
+                successMessages: [anyMessage],
+                failureMessages: [anyMessage],
+              ))
+          .toList();
 
       final event = FieldEvent(
         name: 'OnCharChange',
-        rules: [minRule],
+        rules: rules,
       );
 
       final builder = TextFieldEventBuilder(
