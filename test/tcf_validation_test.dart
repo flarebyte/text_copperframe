@@ -182,7 +182,19 @@ void main() {
             metricStoreHolder: metricStoreHolder,
             optionsInventory: optionsInventory,
             widgetOptions: {},
-            pageOptions: {'page': 'page789', 'pageRow': 'row123'})
+            pageOptions: {'page': 'page789', 'pageRow': 'row123'}),
+        TextFieldEventBuilder(
+            fieldEvent: event,
+            metricStoreHolder: metricStoreHolder,
+            optionsInventory: optionsInventory,
+            widgetOptions: {'page': 'page789', 'pageRow': 'row123'},
+            pageOptions: {}),
+        TextFieldEventBuilder(
+            fieldEvent: event,
+            metricStoreHolder: metricStoreHolder,
+            optionsInventory: optionsInventory,
+            widgetOptions: {'page': 'page789', 'pageRow': 'row123'},
+            pageOptions: {'page': 'pageOpts789', 'pageRow': 'rowOpts123'})
       ];
       for (var builder in builders) {
         final textRule = builder.build();
