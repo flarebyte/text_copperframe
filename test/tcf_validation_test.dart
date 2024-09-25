@@ -20,14 +20,12 @@ void main() {
       final strictnessLabel = strictness == '' ? 'strict' : 'accept equal';
 
       test('check validation for a range of chars when $strictnessLabel', () {
-        var bigEnoughMessage = UserMessage(
-            label: 'Big enough', level: MessageLevel.info, category: 'length');
-        var tooSmallMessage = UserMessage(
+        final tooSmallMessage = UserMessage(
             label: 'Too small', level: MessageLevel.error, category: 'length');
         final minRule = FieldRule(
           name: 'chars more than$strictness',
           options: {'text#minChars': '1'},
-          successMessages: [bigEnoughMessage],
+          successMessages: [],
           failureMessages: [tooSmallMessage],
         );
         var smallEnoughMessage = UserMessage(
@@ -36,11 +34,15 @@ void main() {
             category: 'length');
         var tooBigMessage = UserMessage(
             label: 'Too big', level: MessageLevel.error, category: 'length');
+        var tooBigMessageHelp = UserMessage(
+            label: 'If too big try to summarise',
+            level: MessageLevel.info,
+            category: 'length');
         final maxRule = FieldRule(
           name: 'chars less than$strictness',
           options: {'text#maxChars': '30'},
           successMessages: [smallEnoughMessage],
-          failureMessages: [tooBigMessage],
+          failureMessages: [tooBigMessage, tooBigMessageHelp],
         );
         final event = FieldEvent(
           name: 'OnCharChange',
@@ -53,10 +55,10 @@ void main() {
             widgetOptions: {},
             pageOptions: {'page': 'page789'});
         final textRule = builder.build();
-        expect(textRule.validate('some text'),
-            [bigEnoughMessage, smallEnoughMessage]);
+        expect(textRule.validate('some text'), [smallEnoughMessage]);
         expect(textRule.validate(''), [tooSmallMessage, smallEnoughMessage]);
-        expect(textRule.validate('A' * 100), [bigEnoughMessage, tooBigMessage]);
+        expect(
+            textRule.validate('A' * 100), [tooBigMessage, tooBigMessageHelp]);
         expectNoMetricError(metricStoreHolder);
       });
     }
@@ -64,14 +66,12 @@ void main() {
       final strictnessLabel = strictness == '' ? 'strict' : 'accept equal';
 
       test('check validation for a range of words when $strictnessLabel', () {
-        var bigEnoughMessage = UserMessage(
-            label: 'Big enough', level: MessageLevel.info, category: 'length');
         var tooSmallMessage = UserMessage(
             label: 'Too small', level: MessageLevel.error, category: 'length');
         final minRule = FieldRule(
           name: 'words more than$strictness',
           options: {'text#minWords': '2'},
-          successMessages: [bigEnoughMessage],
+          successMessages: [],
           failureMessages: [tooSmallMessage],
         );
         var smallEnoughMessage = UserMessage(
@@ -97,11 +97,9 @@ void main() {
             widgetOptions: {},
             pageOptions: {'page': 'page789'});
         final textRule = builder.build();
-        expect(textRule.validate('three little words'),
-            [bigEnoughMessage, smallEnoughMessage]);
+        expect(textRule.validate('three little words'), [smallEnoughMessage]);
         expect(textRule.validate('one'), [tooSmallMessage, smallEnoughMessage]);
-        expect(textRule.validate('word ' * 100),
-            [bigEnoughMessage, tooBigMessage]);
+        expect(textRule.validate('word ' * 100), [tooBigMessage]);
         expectNoMetricError(metricStoreHolder);
       });
     }
