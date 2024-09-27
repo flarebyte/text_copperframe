@@ -3,6 +3,7 @@ import 'package:text_copperframe/src/higher_model.dart';
 import 'package:text_copperframe/src/tcf_metrics.dart';
 import 'package:validomix/validomix.dart';
 
+/// A class that contains the rule names for text field
 class TextFieldEventNames {
   static const charsLessThan = 'chars less than';
   static const charsLessThanOrEqual = 'chars less than or equal';
@@ -26,8 +27,9 @@ class TextFieldEventNames {
   ];
 }
 
+/// A class that builds multiple
 class TextFieldEventBuilder {
-  final FieldEvent fieldEvent;
+  final CopperframeFieldEvent fieldEvent;
   final ExMetricStoreHolder metricStoreHolder;
   final VxOptionsInventory optionsInventory;
   final String name = 'text';
@@ -41,8 +43,8 @@ class TextFieldEventBuilder {
       required this.widgetOptions,
       required this.pageOptions});
 
-  TcfRuleComposer build() {
-    final List<BaseUserRule> charChangeRules = [];
+  CopperframeRuleComposer build() {
+    final List<BaseCopperframeRule> charChangeRules = [];
     for (var fieldRule in fieldEvent.rules) {
       final ruleItem = _buildRule(fieldRule);
       if (ruleItem != null) {
@@ -50,7 +52,7 @@ class TextFieldEventBuilder {
       }
     }
 
-    return TcfRuleComposer(charChangeRules);
+    return CopperframeRuleComposer(charChangeRules);
   }
 
   /// Merges the options from the page, widget and field rules
@@ -61,7 +63,7 @@ class TextFieldEventBuilder {
     return mergedOpts;
   }
 
-  BaseUserRule? _buildRule(FieldRule rule) {
+  BaseCopperframeRule? _buildRule(CopperframeFieldRule rule) {
     switch (rule.name) {
       case TextFieldEventNames.charsLessThan:
         return _buildCharsLessThan(rule);
@@ -92,117 +94,131 @@ class TextFieldEventBuilder {
     }
   }
 
-  BaseUserRule _buildCharsLessThan(FieldRule fieldRule) {
-    final rule = VxStringRules.charsLessThan<UserMessage>(
+  BaseCopperframeRule _buildCharsLessThan(CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.charsLessThan<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildCharsMoreThan(FieldRule fieldRule) {
-    final rule = VxStringRules.charsMoreThan<UserMessage>(
+  BaseCopperframeRule _buildCharsMoreThan(CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.charsMoreThan<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildCharsLessThanOrEqual(FieldRule fieldRule) {
-    final rule = VxStringRules.charsLessThanOrEqual<UserMessage>(
+  BaseCopperframeRule _buildCharsLessThanOrEqual(
+      CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.charsLessThanOrEqual<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildcharsMoreThanOrEqual(FieldRule fieldRule) {
-    final rule = VxStringRules.charsMoreThanOrEqual<UserMessage>(
+  BaseCopperframeRule _buildcharsMoreThanOrEqual(
+      CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.charsMoreThanOrEqual<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildWordsLessThan(FieldRule fieldRule) {
-    final rule = VxStringRules.wordsLessThan<UserMessage>(
+  BaseCopperframeRule _buildWordsLessThan(CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.wordsLessThan<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildWordsLessThanOrEqual(FieldRule fieldRule) {
-    final rule = VxStringRules.wordsLessThanOrEqual<UserMessage>(
+  BaseCopperframeRule _buildWordsLessThanOrEqual(
+      CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.wordsLessThanOrEqual<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildWordsMoreThan(FieldRule fieldRule) {
-    final rule = VxStringRules.wordsMoreThan<UserMessage>(
+  BaseCopperframeRule _buildWordsMoreThan(CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.wordsMoreThan<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildWordsMoreThanOrEqual(FieldRule fieldRule) {
-    final rule = VxStringRules.wordsMoreThanOrEqual<UserMessage>(
+  BaseCopperframeRule _buildWordsMoreThanOrEqual(
+      CopperframeFieldRule fieldRule) {
+    final rule = VxStringRules.wordsMoreThanOrEqual<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers:
-            UserMessageProducer.createProducers(fieldRule.failureMessages));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.failureMessages));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
-  BaseUserRule _buildUrl(FieldRule fieldRule) {
-    final rule = VxUrlRule<UserMessage>(
+  BaseCopperframeRule _buildUrl(CopperframeFieldRule fieldRule) {
+    final rule = VxUrlRule<CopperframeMessage>(
         name: name,
         metricStoreHolder: metricStoreHolder,
         optionsInventory: optionsInventory,
-        successProducers:
-            UserMessageProducer.createProducers(fieldRule.successMessages),
-        failureProducers: UserMessageProducer.createProducers(
-            UserMessage.getMessagesWithNoFlag(fieldRule.failureMessages)),
-        domainFailureProducers: UserMessageProducer.createProducers(
-            UserMessage.getMessagesWithFlag(
+        successProducers: CopperframeMessageProducer.createProducers(
+            fieldRule.successMessages),
+        failureProducers: CopperframeMessageProducer.createProducers(
+            CopperframeMessage.getMessagesWithNoFlag(
+                fieldRule.failureMessages)),
+        domainFailureProducers: CopperframeMessageProducer.createProducers(
+            CopperframeMessage.getMessagesWithFlag(
                 fieldRule.failureMessages, 'domain')),
-        secureFailureProducers: UserMessageProducer.createProducers(
-            UserMessage.getMessagesWithFlag(
+        secureFailureProducers: CopperframeMessageProducer.createProducers(
+            CopperframeMessage.getMessagesWithFlag(
                 fieldRule.failureMessages, 'secure')));
-    return UserRule(rule: rule, options: _mergeOptions(fieldRule.options));
+    return CopperframeRule(
+        rule: rule, options: _mergeOptions(fieldRule.options));
   }
 }

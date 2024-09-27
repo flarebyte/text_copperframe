@@ -20,31 +20,35 @@ void main() {
       final strictnessLabel = strictness == '' ? 'strict' : 'accept equal';
 
       test('check validation for a range of chars when $strictnessLabel', () {
-        final tooSmallMessage = UserMessage(
-            label: 'Too small', level: MessageLevel.error, category: 'length');
-        final minRule = FieldRule(
+        final tooSmallMessage = CopperframeMessage(
+            label: 'Too small',
+            level: CopperframeMessageLevel.error,
+            category: 'length');
+        final minRule = CopperframeFieldRule(
           name: 'chars more than$strictness',
           options: {'text#minChars': '1'},
           successMessages: [],
           failureMessages: [tooSmallMessage],
         );
-        var smallEnoughMessage = UserMessage(
+        var smallEnoughMessage = CopperframeMessage(
             label: 'Small enough',
-            level: MessageLevel.info,
+            level: CopperframeMessageLevel.info,
             category: 'length');
-        var tooBigMessage = UserMessage(
-            label: 'Too big', level: MessageLevel.error, category: 'length');
-        var tooBigMessageHelp = UserMessage(
+        var tooBigMessage = CopperframeMessage(
+            label: 'Too big',
+            level: CopperframeMessageLevel.error,
+            category: 'length');
+        var tooBigMessageHelp = CopperframeMessage(
             label: 'If too big try to summarise',
-            level: MessageLevel.info,
+            level: CopperframeMessageLevel.info,
             category: 'length');
-        final maxRule = FieldRule(
+        final maxRule = CopperframeFieldRule(
           name: 'chars less than$strictness',
           options: {'text#maxChars': '30'},
           successMessages: [smallEnoughMessage],
           failureMessages: [tooBigMessage, tooBigMessageHelp],
         );
-        final event = FieldEvent(
+        final event = CopperframeFieldEvent(
           name: 'OnCharChange',
           rules: [minRule, maxRule],
         );
@@ -66,27 +70,31 @@ void main() {
       final strictnessLabel = strictness == '' ? 'strict' : 'accept equal';
 
       test('check validation for a range of words when $strictnessLabel', () {
-        var tooSmallMessage = UserMessage(
-            label: 'Too small', level: MessageLevel.error, category: 'length');
-        final minRule = FieldRule(
+        var tooSmallMessage = CopperframeMessage(
+            label: 'Too small',
+            level: CopperframeMessageLevel.error,
+            category: 'length');
+        final minRule = CopperframeFieldRule(
           name: 'words more than$strictness',
           options: {'text#minWords': '2'},
           successMessages: [],
           failureMessages: [tooSmallMessage],
         );
-        var smallEnoughMessage = UserMessage(
+        var smallEnoughMessage = CopperframeMessage(
             label: 'Small enough',
-            level: MessageLevel.info,
+            level: CopperframeMessageLevel.info,
             category: 'length');
-        var tooBigMessage = UserMessage(
-            label: 'Too big', level: MessageLevel.error, category: 'length');
-        final maxRule = FieldRule(
+        var tooBigMessage = CopperframeMessage(
+            label: 'Too big',
+            level: CopperframeMessageLevel.error,
+            category: 'length');
+        final maxRule = CopperframeFieldRule(
           name: 'words less than$strictness',
           options: {'text#maxWords': '30'},
           successMessages: [smallEnoughMessage],
           failureMessages: [tooBigMessage],
         );
-        final event = FieldEvent(
+        final event = CopperframeFieldEvent(
           name: 'OnCharChange',
           rules: [minRule, maxRule],
         );
@@ -105,21 +113,23 @@ void main() {
     }
 
     test('check validation for a url', () {
-      var validMessage = UserMessage(
-          label: 'Valid', level: MessageLevel.info, category: 'url');
-      var invalidMessage = UserMessage(
-          label: 'Invalid', level: MessageLevel.error, category: 'url');
-      var invalidDomainMessage = UserMessage(
+      var validMessage = CopperframeMessage(
+          label: 'Valid', level: CopperframeMessageLevel.info, category: 'url');
+      var invalidMessage = CopperframeMessage(
+          label: 'Invalid',
+          level: CopperframeMessageLevel.error,
+          category: 'url');
+      var invalidDomainMessage = CopperframeMessage(
           label: 'Invalid domain',
-          level: MessageLevel.error,
+          level: CopperframeMessageLevel.error,
           category: 'url',
           flags: 'domain');
-      var insecureMessage = UserMessage(
+      var insecureMessage = CopperframeMessage(
           label: 'Insecure',
-          level: MessageLevel.error,
+          level: CopperframeMessageLevel.error,
           category: 'url',
           flags: 'secure');
-      final urlRule = FieldRule(
+      final urlRule = CopperframeFieldRule(
         name: 'url',
         options: {
           'text~allowDomains': 'en.wikipedia.org dart.dev',
@@ -132,7 +142,7 @@ void main() {
           insecureMessage
         ],
       );
-      final event = FieldEvent(
+      final event = CopperframeFieldEvent(
         name: 'OnCharChange',
         rules: [urlRule],
       );
@@ -153,29 +163,29 @@ void main() {
       expectNoMetricError(metricStoreHolder);
     });
     test('check missing prop for validation', () {
-      var anyMessage = UserMessage(
+      var anyMessage = CopperframeMessage(
           label: 'We should never see this message',
-          level: MessageLevel.info,
+          level: CopperframeMessageLevel.info,
           category: 'length');
-      final minRule = FieldRule(
+      final minRule = CopperframeFieldRule(
         name: 'chars more than',
         options: {},
         successMessages: [anyMessage],
         failureMessages: [anyMessage],
       );
 
-      final minRuleWithMetricInfo = FieldRule(
+      final minRuleWithMetricInfo = CopperframeFieldRule(
         name: 'chars more than',
         options: {'page': 'page789', 'pageRow': 'row123'},
         successMessages: [anyMessage],
         failureMessages: [anyMessage],
       );
 
-      final event = FieldEvent(
+      final event = CopperframeFieldEvent(
         name: 'OnCharChange',
         rules: [minRule],
       );
-      final eventWithMetricInfo = FieldEvent(
+      final eventWithMetricInfo = CopperframeFieldEvent(
         name: 'OnCharChange',
         rules: [minRuleWithMetricInfo],
       );
@@ -231,18 +241,18 @@ void main() {
     });
 
     test('check missing rule', () {
-      var anyMessage = UserMessage(
+      var anyMessage = CopperframeMessage(
           label: 'We should never see this message',
-          level: MessageLevel.info,
+          level: CopperframeMessageLevel.info,
           category: 'length');
-      final minRule = FieldRule(
+      final minRule = CopperframeFieldRule(
         name: 'this rule does not exist',
         options: {'pageRow': 'row123'},
         successMessages: [anyMessage],
         failureMessages: [anyMessage],
       );
 
-      final event = FieldEvent(
+      final event = CopperframeFieldEvent(
         name: 'OnCharChange',
         rules: [minRule],
       );
@@ -263,13 +273,13 @@ void main() {
     });
 
     test('check inventory', () {
-      var anyMessage = UserMessage(
+      var anyMessage = CopperframeMessage(
           label: 'We should never see this message',
-          level: MessageLevel.info,
+          level: CopperframeMessageLevel.info,
           category: 'length');
       expect(TextFieldEventNames.all.length, 9);
-      final List<FieldRule> rules = TextFieldEventNames.all
-          .map((name) => FieldRule(
+      final List<CopperframeFieldRule> rules = TextFieldEventNames.all
+          .map((name) => CopperframeFieldRule(
                 name: name,
                 options: {},
                 successMessages: [anyMessage],
@@ -277,7 +287,7 @@ void main() {
               ))
           .toList();
 
-      final event = FieldEvent(
+      final event = CopperframeFieldEvent(
         name: 'OnCharChange',
         rules: rules,
       );

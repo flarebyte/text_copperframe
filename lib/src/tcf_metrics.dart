@@ -3,6 +3,7 @@ import 'package:eagleyeix/metric.dart';
 class TcfMetrics {
   static final lib = {'package': 'text_copperframe'};
 
+  /// Metric to record a rule not found error.
   static ExMetricKey getRuleNotFound(
       {required String id, String? page, String? pageRow}) {
     final withPage = page != null ? {'page': page} : {};

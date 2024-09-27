@@ -1,12 +1,12 @@
 import 'package:validomix/validomix.dart';
 
 /// Represents a message to be displayed to a user.
-class UserMessage {
+class CopperframeMessage {
   /// The label or content of the message.
   final String label;
 
   /// The level of the message, such as info, warning, or error.
-  final MessageLevel level;
+  final CopperframeMessageLevel level;
 
   /// The category of the message, which can be any user-defined string.
   final String category;
@@ -19,15 +19,15 @@ class UserMessage {
     return '$level $label';
   }
 
-  /// Constructs a [UserMessage] with the provided [label], [level], and [category].
-  UserMessage({
+  /// Constructs a [CopperframeMessage] with the provided [label], [level], and [category].
+  CopperframeMessage({
     required this.label,
     required this.level,
     required this.category,
     this.flags,
   });
 
-  /// Serializes this [UserMessage] to a JSON-compatible map.
+  /// Serializes this [CopperframeMessage] to a JSON-compatible map.
   ///
   /// Returns a [Map<String, dynamic>] that represents this message.
   Map<String, dynamic> toJson() {
@@ -39,14 +39,14 @@ class UserMessage {
     };
   }
 
-  /// Deserializes a [UserMessage] from a JSON-compatible map.
+  /// Deserializes a [CopperframeMessage] from a JSON-compatible map.
   ///
   /// Throws a [FormatException] if the JSON map does not contain the required fields.
-  factory UserMessage.fromJson(Map<String, dynamic> json) {
+  factory CopperframeMessage.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('label') &&
         json.containsKey('level') &&
         json.containsKey('category')) {
-      return UserMessage(
+      return CopperframeMessage(
         label: json['label'],
         level: MessageLevelExtension.fromString(json['level']),
         category: json['category'],
@@ -57,35 +57,36 @@ class UserMessage {
     }
   }
 
-  static List<UserMessage> getMessagesWithFlag(
-      List<UserMessage> messages, String tag) {
+  static List<CopperframeMessage> getMessagesWithFlag(
+      List<CopperframeMessage> messages, String tag) {
     return messages
         .where((message) => (message.flags ?? '').contains(tag))
         .toList();
   }
 
-  static List<UserMessage> getMessagesWithNoFlag(List<UserMessage> messages) {
+  static List<CopperframeMessage> getMessagesWithNoFlag(
+      List<CopperframeMessage> messages) {
     return messages.where((message) => (message.flags ?? '').isEmpty).toList();
   }
 }
 
 /// Enum representing the level of the message.
-enum MessageLevel { info, warning, error }
+enum CopperframeMessageLevel { info, warning, error }
 
-/// Extension on [MessageLevel] to facilitate conversion from string.
-extension MessageLevelExtension on MessageLevel {
-  /// Converts a string to a [MessageLevel].
+/// Extension on [CopperframeMessageLevel] to facilitate conversion from string.
+extension MessageLevelExtension on CopperframeMessageLevel {
+  /// Converts a string to a [CopperframeMessageLevel].
   ///
-  /// Returns the corresponding [MessageLevel] for a valid input.
-  /// Throws an [ArgumentError] if the input string does not match any [MessageLevel].
-  static MessageLevel fromString(String level) {
+  /// Returns the corresponding [CopperframeMessageLevel] for a valid input.
+  /// Throws an [ArgumentError] if the input string does not match any [CopperframeMessageLevel].
+  static CopperframeMessageLevel fromString(String level) {
     switch (level) {
       case 'info':
-        return MessageLevel.info;
+        return CopperframeMessageLevel.info;
       case 'warning':
-        return MessageLevel.warning;
+        return CopperframeMessageLevel.warning;
       case 'error':
-        return MessageLevel.error;
+        return CopperframeMessageLevel.error;
       default:
         throw ArgumentError('Invalid message level: $level');
     }
@@ -93,28 +94,28 @@ extension MessageLevelExtension on MessageLevel {
 }
 
 /// Represents a rule that can be applied to a field.
-class FieldRule {
+class CopperframeFieldRule {
   /// The name of the rule.
   final String name;
 
   /// A map of options for configuring the rule.
   final Map<String, String> options;
 
-  /// A list of [UserMessage] objects representing success messages.
-  final List<UserMessage> successMessages;
+  /// A list of [CopperframeMessage] objects representing success messages.
+  final List<CopperframeMessage> successMessages;
 
-  /// A list of [UserMessage] objects representing failure messages.
-  final List<UserMessage> failureMessages;
+  /// A list of [CopperframeMessage] objects representing failure messages.
+  final List<CopperframeMessage> failureMessages;
 
-  /// Constructs a [FieldRule] with the provided [name], [options], [successMessages], and [failureMessages].
-  FieldRule({
+  /// Constructs a [CopperframeFieldRule] with the provided [name], [options], [successMessages], and [failureMessages].
+  CopperframeFieldRule({
     required this.name,
     required this.options,
     required this.successMessages,
     required this.failureMessages,
   });
 
-  /// Serializes this [FieldRule] to a JSON-compatible map.
+  /// Serializes this [CopperframeFieldRule] to a JSON-compatible map.
   ///
   /// Returns a [Map<String, dynamic>] that represents this rule.
   Map<String, dynamic> toJson() {
@@ -126,22 +127,22 @@ class FieldRule {
     };
   }
 
-  /// Deserializes a [FieldRule] from a JSON-compatible map.
+  /// Deserializes a [CopperframeFieldRule] from a JSON-compatible map.
   ///
   /// Throws a [FormatException] if the JSON map does not contain the required fields.
-  factory FieldRule.fromJson(Map<String, dynamic> json) {
+  factory CopperframeFieldRule.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('name') &&
         json.containsKey('options') &&
         json.containsKey('successMessages') &&
         json.containsKey('failureMessages')) {
-      return FieldRule(
+      return CopperframeFieldRule(
         name: json['name'],
         options: Map<String, String>.from(json['options']),
         successMessages: (json['successMessages'] as List)
-            .map((msg) => UserMessage.fromJson(msg))
+            .map((msg) => CopperframeMessage.fromJson(msg))
             .toList(),
         failureMessages: (json['failureMessages'] as List)
-            .map((msg) => UserMessage.fromJson(msg))
+            .map((msg) => CopperframeMessage.fromJson(msg))
             .toList(),
       );
     } else {
@@ -150,21 +151,21 @@ class FieldRule {
   }
 }
 
-/// Represents an event for a field, which triggers a list of [FieldRule]s.
-class FieldEvent {
+/// Represents an event for a field, which triggers a list of [CopperframeFieldRule]s.
+class CopperframeFieldEvent {
   /// The name of the event.
   final String name;
 
-  /// A list of [FieldRule] objects that are applied when the event occurs.
-  final List<FieldRule> rules;
+  /// A list of [CopperframeFieldRule] objects that are applied when the event occurs.
+  final List<CopperframeFieldRule> rules;
 
-  /// Constructs a [FieldEvent] with the provided [name] and [rules].
-  FieldEvent({
+  /// Constructs a [CopperframeFieldEvent] with the provided [name] and [rules].
+  CopperframeFieldEvent({
     required this.name,
     required this.rules,
   });
 
-  /// Serializes this [FieldEvent] to a JSON-compatible map.
+  /// Serializes this [CopperframeFieldEvent] to a JSON-compatible map.
   ///
   /// Returns a [Map<String, dynamic>] that represents this event.
   Map<String, dynamic> toJson() {
@@ -174,15 +175,15 @@ class FieldEvent {
     };
   }
 
-  /// Deserializes a [FieldEvent] from a JSON-compatible map.
+  /// Deserializes a [CopperframeFieldEvent] from a JSON-compatible map.
   ///
   /// Throws a [FormatException] if the JSON map does not contain the required fields.
-  factory FieldEvent.fromJson(Map<String, dynamic> json) {
+  factory CopperframeFieldEvent.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('name') && json.containsKey('rules')) {
-      return FieldEvent(
+      return CopperframeFieldEvent(
         name: json['name'],
         rules: (json['rules'] as List)
-            .map((rule) => FieldRule.fromJson(rule))
+            .map((rule) => CopperframeFieldRule.fromJson(rule))
             .toList(),
       );
     } else {
@@ -192,7 +193,7 @@ class FieldEvent {
 }
 
 /// Represents a widget for a field, which can trigger various events.
-class FieldWidget {
+class CopperframeFieldWidget {
   /// The name of the widget.
   final String name;
 
@@ -202,18 +203,18 @@ class FieldWidget {
   /// A map of options for configuring the widget.
   final Map<String, String> options;
 
-  /// A list of [FieldEvent] objects representing events that can occur for the widget.
-  final List<FieldEvent> events;
+  /// A list of [CopperframeFieldEvent] objects representing events that can occur for the widget.
+  final List<CopperframeFieldEvent> events;
 
-  /// Constructs a [FieldWidget] with the provided [name], [kind], [options], and [events].
-  FieldWidget({
+  /// Constructs a [CopperframeFieldWidget] with the provided [name], [kind], [options], and [events].
+  CopperframeFieldWidget({
     required this.name,
     required this.kind,
     required this.options,
     required this.events,
   });
 
-  /// Serializes this [FieldWidget] to a JSON-compatible map.
+  /// Serializes this [CopperframeFieldWidget] to a JSON-compatible map.
   ///
   /// Returns a [Map<String, dynamic>] that represents this widget.
   Map<String, dynamic> toJson() {
@@ -225,20 +226,20 @@ class FieldWidget {
     };
   }
 
-  /// Deserializes a [FieldWidget] from a JSON-compatible map.
+  /// Deserializes a [CopperframeFieldWidget] from a JSON-compatible map.
   ///
   /// Throws a [FormatException] if the JSON map does not contain the required fields.
-  factory FieldWidget.fromJson(Map<String, dynamic> json) {
+  factory CopperframeFieldWidget.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('name') &&
         json.containsKey('kind') &&
         json.containsKey('options') &&
         json.containsKey('events')) {
-      return FieldWidget(
+      return CopperframeFieldWidget(
         name: json['name'],
         kind: json['kind'],
         options: Map<String, String>.from(json['options']),
         events: (json['events'] as List)
-            .map((event) => FieldEvent.fromJson(event))
+            .map((event) => CopperframeFieldEvent.fromJson(event))
             .toList(),
       );
     } else {
@@ -247,43 +248,49 @@ class FieldWidget {
   }
 }
 
-class UserMessageProducer implements VxMessageProducer<UserMessage, String> {
-  final UserMessage message;
-  UserMessageProducer(this.message);
+class CopperframeMessageProducer
+    implements VxMessageProducer<CopperframeMessage, String> {
+  final CopperframeMessage message;
+  CopperframeMessageProducer(this.message);
   @override
-  UserMessage produce(Map<String, String> options, String value) => message;
+  CopperframeMessage produce(Map<String, String> options, String value) =>
+      message;
 
-  static List<UserMessageProducer> createProducers(List<UserMessage> messages) {
-    return messages.map((message) => UserMessageProducer(message)).toList();
+  static List<CopperframeMessageProducer> createProducers(
+      List<CopperframeMessage> messages) {
+    return messages
+        .map((message) => CopperframeMessageProducer(message))
+        .toList();
   }
 }
 
-abstract class BaseUserRule {
-  List<UserMessage> validate(String value);
+abstract class BaseCopperframeRule {
+  List<CopperframeMessage> validate(String value);
 }
 
-class UserRule extends BaseUserRule {
-  final VxBaseRule<UserMessage> rule;
+class CopperframeRule extends BaseCopperframeRule {
+  final VxBaseRule<CopperframeMessage> rule;
   final Map<String, String> options;
-  UserRule({required this.rule, required this.options});
+  CopperframeRule({required this.rule, required this.options});
 
   @override
-  List<UserMessage> validate(String value) {
+  List<CopperframeMessage> validate(String value) {
     return rule.validate(options, value);
   }
 }
 
-class TcfRuleComposer extends BaseUserRule {
-  final Iterable<BaseUserRule> rules;
+/// Class that declaratively defines a set of rules that are used to validate a text field
+class CopperframeRuleComposer extends BaseCopperframeRule {
+  final Iterable<BaseCopperframeRule> rules;
 
-  TcfRuleComposer(this.rules);
+  CopperframeRuleComposer(this.rules);
 
   @override
-  List<UserMessage> validate(String value) {
-    final List<UserMessage> messages = [];
+  List<CopperframeMessage> validate(String value) {
+    final List<CopperframeMessage> messages = [];
 
     for (final rule in rules) {
-      final List<UserMessage> result = rule.validate(value);
+      final List<CopperframeMessage> result = rule.validate(value);
       messages.addAll(result);
     }
 

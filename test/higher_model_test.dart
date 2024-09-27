@@ -4,14 +4,14 @@ import 'package:text_copperframe/src/higher_model.dart';
 void main() {
   group('UserMessage', () {
     test('toJson and fromJson serialization/deserialization', () {
-      final message = UserMessage(
+      final message = CopperframeMessage(
         label: 'This is an info message',
-        level: MessageLevel.info,
+        level: CopperframeMessageLevel.info,
         category: 'usage',
       );
 
       final json = message.toJson();
-      final deserializedMessage = UserMessage.fromJson(json);
+      final deserializedMessage = CopperframeMessage.fromJson(json);
 
       expect(deserializedMessage.label, equals(message.label));
       expect(deserializedMessage.level, equals(message.level));
@@ -24,7 +24,7 @@ void main() {
         'level': 'error',
       };
 
-      expect(() => UserMessage.fromJson(json), throwsFormatException);
+      expect(() => CopperframeMessage.fromJson(json), throwsFormatException);
     });
 
     test('fromJson with invalid level should throw ArgumentError', () {
@@ -34,31 +34,31 @@ void main() {
         'category': 'length',
       };
 
-      expect(() => UserMessage.fromJson(json), throwsArgumentError);
+      expect(() => CopperframeMessage.fromJson(json), throwsArgumentError);
     });
   });
 
   group('FieldRule', () {
     test('toJson and fromJson serialization/deserialization', () {
-      final rule = FieldRule(
+      final rule = CopperframeFieldRule(
         name: 'Length Check',
         options: {'min': '1', 'max': '255'},
         successMessages: [
-          UserMessage(
+          CopperframeMessage(
               label: 'Valid length',
-              level: MessageLevel.info,
+              level: CopperframeMessageLevel.info,
               category: 'length')
         ],
         failureMessages: [
-          UserMessage(
+          CopperframeMessage(
               label: 'Invalid length',
-              level: MessageLevel.error,
+              level: CopperframeMessageLevel.error,
               category: 'length')
         ],
       );
 
       final json = rule.toJson();
-      final deserializedRule = FieldRule.fromJson(json);
+      final deserializedRule = CopperframeFieldRule.fromJson(json);
 
       expect(deserializedRule.name, equals(rule.name));
       expect(deserializedRule.options, equals(rule.options));
@@ -73,36 +73,36 @@ void main() {
         'successMessages': []
       };
 
-      expect(() => FieldRule.fromJson(json), throwsFormatException);
+      expect(() => CopperframeFieldRule.fromJson(json), throwsFormatException);
     });
   });
 
   group('FieldEvent', () {
     test('toJson and fromJson serialization/deserialization', () {
-      final rule = FieldRule(
+      final rule = CopperframeFieldRule(
         name: 'Required Check',
         options: {'required': 'true'},
         successMessages: [
-          UserMessage(
+          CopperframeMessage(
               label: 'Field is required',
-              level: MessageLevel.info,
+              level: CopperframeMessageLevel.info,
               category: 'validation')
         ],
         failureMessages: [
-          UserMessage(
+          CopperframeMessage(
               label: 'Field is missing',
-              level: MessageLevel.error,
+              level: CopperframeMessageLevel.error,
               category: 'validation')
         ],
       );
 
-      final event = FieldEvent(
+      final event = CopperframeFieldEvent(
         name: 'OnBlur',
         rules: [rule],
       );
 
       final json = event.toJson();
-      final deserializedEvent = FieldEvent.fromJson(json);
+      final deserializedEvent = CopperframeFieldEvent.fromJson(json);
 
       expect(deserializedEvent.name, equals(event.name));
       expect(deserializedEvent.rules.length, equals(1));
@@ -113,35 +113,35 @@ void main() {
         'name': 'OnChange',
       };
 
-      expect(() => FieldEvent.fromJson(json), throwsFormatException);
+      expect(() => CopperframeFieldEvent.fromJson(json), throwsFormatException);
     });
   });
 
   group('FieldWidget', () {
     test('toJson and fromJson serialization/deserialization', () {
-      final rule = FieldRule(
+      final rule = CopperframeFieldRule(
         name: 'MaxLength Check',
         options: {'max': '100'},
         successMessages: [
-          UserMessage(
+          CopperframeMessage(
               label: 'Valid length',
-              level: MessageLevel.info,
+              level: CopperframeMessageLevel.info,
               category: 'validation')
         ],
         failureMessages: [
-          UserMessage(
+          CopperframeMessage(
               label: 'Too long',
-              level: MessageLevel.error,
+              level: CopperframeMessageLevel.error,
               category: 'validation')
         ],
       );
 
-      final event = FieldEvent(
+      final event = CopperframeFieldEvent(
         name: 'OnChange',
         rules: [rule],
       );
 
-      final widget = FieldWidget(
+      final widget = CopperframeFieldWidget(
         name: 'Username',
         kind: 'text',
         options: {'placeholder': 'Enter your username'},
@@ -149,7 +149,7 @@ void main() {
       );
 
       final json = widget.toJson();
-      final deserializedWidget = FieldWidget.fromJson(json);
+      final deserializedWidget = CopperframeFieldWidget.fromJson(json);
 
       expect(deserializedWidget.name, equals(widget.name));
       expect(deserializedWidget.kind, equals(widget.kind));
@@ -164,7 +164,8 @@ void main() {
         'options': {'placeholder': 'Enter your email'}
       };
 
-      expect(() => FieldWidget.fromJson(json), throwsFormatException);
+      expect(
+          () => CopperframeFieldWidget.fromJson(json), throwsFormatException);
     });
   });
 }
