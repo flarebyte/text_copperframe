@@ -248,6 +248,7 @@ class CopperframeFieldWidget {
   }
 }
 
+/// A [VxMessageProducer] that produces a static [CopperframeMessage].
 class CopperframeMessageProducer
     implements VxMessageProducer<CopperframeMessage, String> {
   final CopperframeMessage message;
@@ -264,10 +265,13 @@ class CopperframeMessageProducer
   }
 }
 
+/// An abstract class to represent a Copperframe style validator
 abstract class BaseCopperframeRule {
+  /// Validate some text and return some messages in case of success or failure.
   List<CopperframeMessage> validate(String value);
 }
 
+/// A class that represents a Copperframe rule
 class CopperframeRule extends BaseCopperframeRule {
   final VxBaseRule<CopperframeMessage> rule;
   final Map<String, String> options;

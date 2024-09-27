@@ -1,5 +1,6 @@
 import 'package:eagleyeix/metric.dart';
 
+/// Metrics for the [TextCopperframe] package.
 class TcfMetrics {
   static final lib = {'package': 'text_copperframe'};
 

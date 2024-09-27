@@ -3,7 +3,7 @@ import 'package:text_copperframe/src/higher_model.dart';
 import 'package:text_copperframe/src/tcf_metrics.dart';
 import 'package:validomix/validomix.dart';
 
-/// A class that contains the rule names for text field
+/// A class that contains all the rule names for text field
 class TextFieldEventNames {
   static const charsLessThan = 'chars less than';
   static const charsLessThanOrEqual = 'chars less than or equal';
@@ -27,7 +27,7 @@ class TextFieldEventNames {
   ];
 }
 
-/// A class that builds multiple
+/// A class that builds multiple rules for a text field event
 class TextFieldEventBuilder {
   final CopperframeFieldEvent fieldEvent;
   final ExMetricStoreHolder metricStoreHolder;
@@ -43,6 +43,7 @@ class TextFieldEventBuilder {
       required this.widgetOptions,
       required this.pageOptions});
 
+  /// Build the rules
   CopperframeRuleComposer build() {
     final List<BaseCopperframeRule> charChangeRules = [];
     for (var fieldRule in fieldEvent.rules) {
@@ -63,6 +64,7 @@ class TextFieldEventBuilder {
     return mergedOpts;
   }
 
+  /// Build a specific rule based on the rule name and options
   BaseCopperframeRule? _buildRule(CopperframeFieldRule rule) {
     switch (rule.name) {
       case TextFieldEventNames.charsLessThan:
@@ -94,6 +96,7 @@ class TextFieldEventBuilder {
     }
   }
 
+  /// Build a rule for charsLessThan
   BaseCopperframeRule _buildCharsLessThan(CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.charsLessThan<CopperframeMessage>(
         name: name,
@@ -107,6 +110,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for charsMoreThan
   BaseCopperframeRule _buildCharsMoreThan(CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.charsMoreThan<CopperframeMessage>(
         name: name,
@@ -120,6 +124,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for charsLessThanOrEqual
   BaseCopperframeRule _buildCharsLessThanOrEqual(
       CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.charsLessThanOrEqual<CopperframeMessage>(
@@ -134,6 +139,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for charsMoreThanOrEqual
   BaseCopperframeRule _buildcharsMoreThanOrEqual(
       CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.charsMoreThanOrEqual<CopperframeMessage>(
@@ -148,6 +154,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for wordsLessThan
   BaseCopperframeRule _buildWordsLessThan(CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.wordsLessThan<CopperframeMessage>(
         name: name,
@@ -161,6 +168,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for wordsLessThanOrEqual
   BaseCopperframeRule _buildWordsLessThanOrEqual(
       CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.wordsLessThanOrEqual<CopperframeMessage>(
@@ -175,6 +183,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for wordsMoreThan
   BaseCopperframeRule _buildWordsMoreThan(CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.wordsMoreThan<CopperframeMessage>(
         name: name,
@@ -188,6 +197,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for wordsMoreThanOrEqual
   BaseCopperframeRule _buildWordsMoreThanOrEqual(
       CopperframeFieldRule fieldRule) {
     final rule = VxStringRules.wordsMoreThanOrEqual<CopperframeMessage>(
@@ -202,6 +212,7 @@ class TextFieldEventBuilder {
         rule: rule, options: _mergeOptions(fieldRule.options));
   }
 
+  /// Build a rule for url
   BaseCopperframeRule _buildUrl(CopperframeFieldRule fieldRule) {
     final rule = VxUrlRule<CopperframeMessage>(
         name: name,
