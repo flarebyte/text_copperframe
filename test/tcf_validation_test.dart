@@ -267,6 +267,7 @@ void main() {
           label: 'We should never see this message',
           level: MessageLevel.info,
           category: 'length');
+      expect(TextFieldEventNames.all.length, 9);
       final List<FieldRule> rules = TextFieldEventNames.all
           .map((name) => FieldRule(
                 name: name,
