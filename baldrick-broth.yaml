@@ -1,13 +1,17 @@
 model:
   project:
     title: The versatile text field for every design
-    description: The versatile text field for every design
+    description: Validate a text field and produce a user-friendly message. 
     version: 0.3.0
     keywords:
       - text field validation
   readme:
     highlights:
-      - Validate text field size
+      - Validate a text field based on character size
+      - Validate a text field based on word size
+      - Validate a URL text field
+      - Produce meaningful messages that can be understood by the user
+      - Can produce multiple messages for success or failure
     links:
       - "[Dart dependencies](DEPENDENCIES.md)"
       - "[Usage](USAGE.md)"
@@ -18,10 +22,18 @@ model:
       - image-hero
     cheatsheetFormat: dart
     cheatsheet:
-      - title: Create an inventory used to keep track of rules
-        example: final optionsInventory = VxOptionsInventory()
-      - title: Create a string rule
-        example: "final rule = VxStringRules.charsLessThan<String>(name: 'test', metricStoreHolder: metricStoreHolder, optionsInventory: optionsInventory, failureProducer: SimpleMessageProducer('Too many characters'));"
+      - title: Create a message
+        example: "final tooSmallMessage = CopperframeMessage(label: 'Too small',level: CopperframeMessageLevel.error, category: 'length');"
+      - title: Create a rule
+        example: "final minRule = CopperframeFieldRule(name: 'chars more than',options: {'text#minChars': '1'}, successMessages: [], failureMessages: [tooSmallMessage]);"
+      - title: Create a field event
+        example: "final event = CopperframeFieldEvent(name: 'OnCharChange', rules: [minRule]);"
+      - title: Create a text field event builder
+        example: "final builder = TextFieldEventBuilder(fieldEvent: event, metricStoreHolder: metricStoreHolder, optionsInventory: optionsInventory, widgetOptions: {'pageRow': 'row123'}, pageOptions: {'page': 'page789'});"
+      - title: Build a text field event using the builder
+        example: "final textRule = builder.build();"
+      - title: Validate the text field
+        example: "textRule.validate('some text');"
   github:
     account: flarebyte
     name: text_copperframe
@@ -59,6 +71,11 @@ workflows:
             - title: Display test coverage Summary
               description: Assuming that you have run "brew install lcov"
               run: lcov --list coverage/lcov.info
+            - title: Format nicely the examples
+              run: dart format example
+            - title: run the example
+              run: dart run example/example.dart
+
 
   deps:
     title: Library dependencies

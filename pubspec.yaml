@@ -1,15 +1,21 @@
 name: text_copperframe
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: The versatile text field for every design
+version: 0.3.0
+repository: https://github.com/flarebyte/text_copperframe
 
 environment:
   sdk: ^3.4.4
 
-# Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+  eagleyeix:
+    git:
+      url: https://github.com/flarebyte/eagleyeix.git
+      ref: v0.3.0
+  validomix:
+    git:
+      url: https://github.com/flarebyte/validomix.git
+      ref: v0.5.0
 
 dev_dependencies:
-  lints: ^3.0.0
+  lints: ^4.0.0
   test: ^1.24.0
