@@ -59,6 +59,11 @@ workflows:
             - title: Display test coverage Summary
               description: Assuming that you have run "brew install lcov"
               run: lcov --list coverage/lcov.info
+            - title: Format nicely the examples
+              run: dart format example
+            - title: run the example
+              run: dart run example/example.dart
+
 
   deps:
     title: Library dependencies

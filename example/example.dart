@@ -11,7 +11,7 @@ void main() {
       label: 'Too small',
       level: CopperframeMessageLevel.error,
       category: 'length');
-   
+
   // 1 is the minimum number of characters that a field must have to be considered valid
   final minRule = CopperframeFieldRule(
     name: 'chars more than',
@@ -23,7 +23,7 @@ void main() {
       label: 'Small enough',
       level: CopperframeMessageLevel.info,
       category: 'length');
-    
+
   var tooBigMessage = CopperframeMessage(
       label: 'Too big',
       level: CopperframeMessageLevel.error,
@@ -41,7 +41,7 @@ void main() {
     successMessages: [smallEnoughMessage],
     failureMessages: [tooBigMessage, tooBigMessageHelp],
   );
-  
+
   final event = CopperframeFieldEvent(
     name: 'OnCharChange',
     rules: [minRule, maxRule],
@@ -53,7 +53,10 @@ void main() {
       widgetOptions: {'pageRow': 'row123'},
       pageOptions: {'page': 'page789'});
   final textRule = builder.build();
-  
+
   /// Validates the text
-  textRule.validate('some text');
+  final validated = textRule.validate('some text');
+  print(validated);
+
+  /// [CopperframeMessageLevel.info Small enough]
 }
