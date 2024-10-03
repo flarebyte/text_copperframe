@@ -1,12 +1,11 @@
 name: text_copperframe
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: The versatile text field for every design
+version: 0.3.0
+repository: https://github.com/flarebyte/text_copperframe
 
 environment:
   sdk: ^3.4.4
 
-# Add regular dependencies here.
 dependencies:
   eagleyeix:
     git:
